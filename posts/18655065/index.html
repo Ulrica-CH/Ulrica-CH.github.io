@@ -1,0 +1,2094 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="React">
+    <meta name="description" content="一、setStatesetState更新状态的2种写法
+
+setState(stateChange, [callback])——对象式的setState
+stateChange为状态改变对象(该对象可以体现出状态的更改)
+callback是">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>十六、React扩展 | MichstaBe</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">MichstaBe</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/todolist" class="waves-effect waves-light">
+      
+      <i class="fas" style="zoom: 0.6;"></i>
+      
+      <span>todolist</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">MichstaBe</div>
+        <div class="logo-desc">
+            
+            心中有梦，眼里有光，铭记过去，拥抱未来
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/todolist" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas"></i>
+			
+			todolist
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">十六、React扩展</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/React/">
+                                <span class="chip bg-color">React</span>
+                            </a>
+                        
+                            <a href="/tags/React-Hooks/">
+                                <span class="chip bg-color">React Hooks</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/">
+                                <span class="chip bg-color">组件通信</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/React/" class="post-category">
+                                React
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-12-04
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2021-12-10
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    13 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="一、setState"><a href="#一、setState" class="headerlink" title="一、setState"></a>一、setState</h1><p><strong>setState更新状态的2种写法</strong></p>
+<ul>
+<li><strong>setState(stateChange, [callback])——对象式的setState</strong><ul>
+<li>stateChange为状态改变对象(该对象可以体现出状态的更改)</li>
+<li>callback是可选的回调函数, 它在状态更新完毕、界面也更新后(render调用后)才被调用</li>
+</ul>
+</li>
+<li><strong>setState(updater, [callback])——函数式的setState</strong><ul>
+<li>updater为返回stateChange对象的函数。</li>
+<li>updater可以接收到state和props。</li>
+<li>callback是可选的回调函数, 它在状态更新、界面也更新后(render调用后)才被调用。</li>
+</ul>
+</li>
+</ul>
+<p>总结:</p>
+<ul>
+<li>对象式的setState是函数式的setState的简写方式(语法糖)</li>
+<li>使用原则：<ul>
+<li>如果新状态不依赖于原状态 ===&gt; 使用对象方式</li>
+<li>如果新状态依赖于原状态 ===&gt; 使用函数方式</li>
+<li>如果需要在setState()执行后获取最新的状态数据, 要在第二个callback函数中读取</li>
+<li>写法都差不多，看个人习惯。</li>
+</ul>
+</li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+
+export default class Demo extends Component {
+  state = { count: 0 };
+  add = () =&gt; {
+    //setState的对象式写法
+    //this.setState是异步的，可以通过callback获取更新后的信息
+    // const { count } = this.state;
+    // this.setState({ count: count + 1 },() =&gt; {
+    //     console.log(this.state.count);
+    // });
+
+    //setState的函数式写法
+    //默认传递state props两个参数
+    this.setState((state, props) =&gt; {
+      return { count: state.count + 1 };
+    });
+
+    //简写方式
+    this.setState((state) =&gt; ({ count: this.state.count + 1 }));
+  };
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h2&gt;求和为{this.state.count}&lt;/h2&gt;
+        &lt;button onClick={this.add}&gt;点我+1&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}</code></pre>
+
+<h1 id="二、lazyLoad"><a href="#二、lazyLoad" class="headerlink" title="二、lazyLoad"></a>二、lazyLoad</h1><p><strong>路由组件懒加载 — lazyLoad</strong></p>
+<p>通过React的lazy函数配合import()函数动态加载路由组件 ===&gt; 路由组件代码会被分开打包*</p>
+<pre class="language-react" data-language="react"><code class="language-react">const Login = lazy(()=&gt;import('@/pages/Login'))
+	
+	//2.通过&lt;Suspense&gt;指定在加载得到路由打包文件前显示一个自定义loading界面
+	&lt;Suspense fallback={&lt;h1&gt;loading.....&lt;/h1&gt;}&gt;
+        &lt;Switch&gt;
+            &lt;Route path="/xxx" component={Xxxx}/&gt;
+            &lt;Redirect to="/login"/&gt;
+        &lt;/Switch&gt;
+    &lt;/Suspense&gt;</code></pre>
+
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component, lazy, Suspense } from 'react';
+import { Route, Switch, Redirect, Link } from 'react-router-dom';
+//懒加载方式加载路由
+const Home = lazy(() =&gt; import('../Home'));
+const About = lazy(() =&gt; import('../About'));
+export default class Lazy extends Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;div className="row"&gt;
+          &lt;div className="col-xs-offset-2 col-xs-8"&gt;
+            &lt;div className="page-header"&gt;
+              &lt;h2&gt;React Router Demo&lt;/h2&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div className="row"&gt;
+          &lt;div className="col-xs-2 col-xs-offset-2"&gt;
+            &lt;div className="list-group"&gt;
+              &lt;Link to="/about" children="About"&gt;
+                About
+              &lt;/Link&gt;
+              &lt;Link to="/home" children="Home"&gt;
+                Home
+              &lt;/Link&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div className="col-xs-6"&gt;
+            &lt;div className="panel"&gt;
+              &lt;div className="panel-body"&gt;
+                {/* 注册路由 */}
+                 {/* Suspense中的fallback用于指定懒加载路由组件时的显示 */}
+                &lt;Suspense fallback={&lt;h1&gt;Loading&lt;/h1&gt;}&gt;
+                  &lt;Switch&gt;
+                    &lt;Route path="/about" component={About} /&gt;
+                    &lt;Route path="/home/" component={Home} /&gt;
+                    &lt;Redirect to="/home" /&gt;
+                  &lt;/Switch&gt;
+                &lt;/Suspense&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+}</code></pre>
+
+<h1 id="三、React-Hooks"><a href="#三、React-Hooks" class="headerlink" title="三、React Hooks"></a>三、React Hooks</h1><p>Hook是React 16.8.0版本增加的新特性/新语法</p>
+<p>可以让你在函数组件中使用 state 以及其他的 React 特性</p>
+<h2 id="useState"><a href="#useState" class="headerlink" title="useState"></a>useState</h2><pre class="language-react" data-language="react"><code class="language-react">import React from 'react';
+// export default class Demo extends React.Component {
+//   add = () =&gt; {
+//     this.setState((state, props) =&gt; {
+//       return { count: state.count + 1 };
+//     });
+//   };
+//   render() {
+//     return (
+//       &lt;div&gt;
+//         &lt;h2&gt;求和为{this.state.count}&lt;/h2&gt;
+//         &lt;button onClick={this.add}&gt;点我+1&lt;/button&gt;
+//       &lt;/div&gt;
+//     );
+//   }
+// }
+function Demo() {
+  //使用useState
+  const [count, setCount] = React.useState(0);
+  const [name, setName] = React.useState('tom');
+  function add() {
+    setCount((count) =&gt; count + 1);
+  }
+  function change() {
+    setName((name) =&gt; 'jack');
+  }
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;求和为{count}&lt;/h2&gt;
+      &lt;h2&gt;名字为{name}&lt;/h2&gt;
+      &lt;button onClick={add}&gt;点我+1&lt;/button&gt;
+      &lt;button onClick={change}&gt;点我改名&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+export default Demo;</code></pre>
+
+<h2 id="useEffect"><a href="#useEffect" class="headerlink" title="useEffect"></a>useEffect</h2><p>Effect Hook 可以让你在函数组件中执行副作用操作(用于模拟类组件中的生命周期钩子)</p>
+<ul>
+<li>React中的副作用操作:<ul>
+<li>发ajax请求数据获取</li>
+<li>设置订阅 / 启动定时器</li>
+<li>手动更改真实DOM</li>
+</ul>
+</li>
+</ul>
+<p>语法和说明: </p>
+<pre class="language-react" data-language="react"><code class="language-react">useEffect(() =&gt; { 
+
+    // 在此可以执行任何带副作用操作
+
+    return () =&gt; { // 在组件卸载前执行
+
+     // 在此做一些收尾工作, 比如清除定时器/取消订阅等
+
+    }
+
+   }, [stateValue]) // 如果指定的是[], 回调函数只会在第一次render()后执行
+
+ </code></pre>
+
+<p>可以把 useEffect Hook 看做如下三个函数的组合</p>
+<ul>
+<li>componentDidMount()</li>
+<li>componentDidUpdate()</li>
+<li>componentWillUnmount() </li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">/*useEffect传递两个参数
+    1、第一个参数为回调函数
+    2、第二个参数为一个数组，起到监听作用
+    3、不传递第二个参数，componentDidMount 和 componentDidUpdate都会被检测并响应
+    4、第二个参数传递的为一个空数组，代表生命周期函数都不会被检测
+    5、如果传递的不是空数组，在传的数组中的值发生变化时会监听componentDidUpdate
+    6、返回一个函数代表componentWillUnmount生命周期钩子
+*/
+  React.useEffect(() =&gt; {
+    console.log(1);
+    setInterval(() =&gt; {
+      setCount((count) =&gt; count + 1);
+    },1000);
+    //componentWillUnomunt
+    return () =&gt; {
+      console.log(1);
+    }
+  },[count]);</code></pre>
+
+<h2 id="useRef"><a href="#useRef" class="headerlink" title="useRef"></a>useRef</h2><p>Ref Hook可以在函数组件中存储/查找组件内的标签或任意其它数据</p>
+<p>语法: const refContainer = useRef()</p>
+<p>作用:保存标签对象,功能与React.createRef()一样</p>
+<pre class="language-react" data-language="react"><code class="language-react"> const myRef = React.useRef();
+  function show() {
+    console.log(myRef.current.value);
+  }
+&lt;input type="text" ref={myRef} /&gt;
+&lt;button onClick={show}&gt;&lt;/button&gt;</code></pre>
+
+<h1 id="四、Fragment"><a href="#四、Fragment" class="headerlink" title="四、Fragment"></a>四、Fragment</h1><p>正常写组件引用组件结构：</p>
+<pre class="language-react" data-language="react"><code class="language-react">return (
+      &lt;div&gt;
+        &lt;Demo /&gt;
+      &lt;/div&gt;
+    );</code></pre>
+
+<p>每次都要嵌套一个无用的div标签</p>
+<p>可以使用Fragment来替换div，页面在渲染的时候不会渲染Fragment，省掉了无用的嵌套</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component, Fragment } from 'react';
+export default class App extends Component {
+  render() {
+    return (
+      &lt;Fragment&gt;
+        &lt;Demo /&gt;
+      &lt;/Fragment&gt;
+    );
+  }
+}
+</code></pre>
+
+<p>使用空标签也可以：</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component, Fragment } from 'react';
+export default class App extends Component {
+  render() {
+    return (
+      &lt;&gt;
+        &lt;Demo /&gt;
+      &lt;/&gt;
+    );
+  }
+}</code></pre>
+
+<p>两者不同：</p>
+<p>Fragmengt可以传递key值来表示唯一，且只能传递key</p>
+<p>空标签不可以</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component, Fragment } from 'react';
+export default class App extends Component {
+  render() {
+    return (
+      &lt;Fragment key={1}&gt;
+        &lt;Demo /&gt;
+      &lt;/Fragment&gt;
+    );
+  }
+}</code></pre>
+
+<h1 id="五、context"><a href="#五、context" class="headerlink" title="五、context"></a>五、context</h1><p>context适用于祖组件与后代组件间的组件通信</p>
+<ul>
+<li>创建Context容器对象：</li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">const MyContext = React.createContext()  </code></pre>
+
+<ul>
+<li>渲染子组时，外面包裹xxxContext.Provider, 通过value属性给后代组件传递数据：</li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">&lt;MyContext.Provider value={数据}&gt;
+		子组件
+&lt;/MyContext.Provider&gt;</code></pre>
+
+<ul>
+<li>后代组件读取数据：</li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">//第一种方式:仅适用于类组件 
+  static contextType = xxxContext  // 声明接收context
+  this.context // 读取context中的value数据
+  
+//第二种方式: 函数组件与类组件都可以
+  &lt;xxxContext.Consumer&gt;
+    {
+      value =&gt; ( // value就是context中的value数据
+        要显示的内容
+      )
+    }
+  &lt;/xxxContext.Consumer&gt;</code></pre>
+
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+
+const MyContext = React.createContext();
+export default class A extends Component {
+  state = { username: 'jack', age: 20 };
+  render() {
+    const { username, age } = this.state;
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;我是A组件&lt;/h1&gt;
+        &lt;h1&gt;我的名字是{this.state.username}&lt;/h1&gt;
+        &lt;MyContext.Provider value={{ username, age }}&gt;
+          &lt;B /&gt;
+        &lt;/MyContext.Provider&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+class B extends Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h3&gt;我是B组件&lt;/h3&gt;
+        &lt;h3&gt;我从A组件接收名字是&lt;/h3&gt;
+        &lt;C /&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+// class C extends Component {
+//   //第一种方式:仅适用于类组件
+//   static contextType = MyContext; // 声明接收context
+//   render() {
+//     return (
+//       &lt;div&gt;
+//         &lt;h5&gt;我是C组件&lt;/h5&gt;
+//         &lt;h5&gt;我从A组件接收到的名字是{this.context.username} --- 年龄是{this.context.age}&lt;/h5&gt;
+//       &lt;/div&gt;
+//     );
+//   }
+// }
+
+function C() {
+  return (
+    &lt;div&gt;
+      &lt;h5&gt;我是C组件&lt;/h5&gt;
+      &lt;MyContext.Consumer&gt;
+        {(value) =&gt; {
+          //   console.log(value);
+          return `从A组件接收到的名字是${value.username}`;
+        }}
+      &lt;/MyContext.Consumer&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+<p><strong>注意：在应用开发中一般不用context, 一般都它的封装react插件</strong></p>
+<h1 id="六、PureComponent"><a href="#六、PureComponent" class="headerlink" title="六、PureComponent"></a>六、PureComponent</h1><p>Component的2个问题 </p>
+<blockquote>
+<ol>
+<li>只要执行setState(),<strong>即使不改变状态数据, 组件也会重新render()</strong></li>
+<li>当前组件重新render(), 就会自动重新render子组件 ==&gt; 效率低</li>
+</ol>
+</blockquote>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+
+export default class A extends Component {
+  state = { carname: 'BWM' };
+  change = () =&gt; {
+    this.setState({});
+  };
+  render() {
+    console.log('A组件渲染');
+    return (
+      &lt;div&gt;
+        &lt;h2&gt;车名：{this.state.carname}&lt;/h2&gt;
+        &lt;button onClick={this.change}&gt;点我换车&lt;/button&gt;
+        &lt;B /&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+class B extends Component {
+  render() {
+    console.log('B组件渲染');
+    return &lt;div&gt;&lt;/div&gt;;
+  }
+}</code></pre>
+
+<p><img src="http://cdn.michstabe.cn/blog/211204/HbJA39Jcm8.png?imageslim"></p>
+<ul>
+<li>初始渲染两个组件时分别render一次</li>
+<li>当点击按钮时，setState没有改变状态，B组件也没接收值，但还是分别进行了render</li>
+<li>这就是两个问题</li>
+</ul>
+<p>原因</p>
+<blockquote>
+<p> Component中的shouldComponentUpdate()总是返回true</p>
+</blockquote>
+<p>效率高的做法</p>
+<blockquote>
+<p> 只有当组件的state或props数据发生改变时才重新render()</p>
+</blockquote>
+<p><strong>解决</strong></p>
+<ul>
+<li>办法1: <ul>
+<li>重写shouldComponentUpdate()方法</li>
+<li>比较新旧state或props数据, 如果有变化才返回true, 如果没有返回false</li>
+</ul>
+</li>
+<li>办法2:  <ul>
+<li>使用PureComponent</li>
+<li>PureComponent重写了shouldComponentUpdate(), 只有state或props数据有变化才返回true</li>
+</ul>
+</li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { PureComponent } from 'react';
+export default class A extends PureComponent {}</code></pre>
+
+<ul>
+<li>注意: <ul>
+<li>PureComponent只是进行state和props数据的浅比较, <strong>如果只是数据对象内部数据变了, 返回false</strong>  </li>
+<li>不要直接修改state数据, 而是要产生新数据</li>
+<li>项目中一般使用PureComponent来优化</li>
+</ul>
+</li>
+</ul>
+<h1 id="七、render-props"><a href="#七、render-props" class="headerlink" title="七、render props"></a>七、render props</h1><p>如何向组件内部动态传入带内容的结构(标签)?</p>
+<ul>
+<li><p>Vue中: </p>
+</li>
+<li><p>使用slot技术, 也就是通过组件标签体传入结构  <code>&lt;AA&gt;&lt;BB/&gt;&lt;/AA&gt;</code></p>
+</li>
+<li><p>React中:</p>
+<ul>
+<li>使用children props: 通过组件标签体传入结构</li>
+<li>使用render props: 通过组件标签属性传入结构，并且可以传递数据, 一般用render函数属性</li>
+</ul>
+</li>
+</ul>
+<p>children props：</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+export default class Parent extends Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;父组件Parent&lt;/h1&gt;
+        &lt;A&gt; hello &lt;/A&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+class A extends Component {
+  state = { name: 'jack' };
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h3&gt;子组件A&lt;/h3&gt;
+        {/*children props方式来接受 */}
+        &lt;h4&gt;{this.props.children}&lt;/h4&gt;
+      &lt;/div&gt;
+    );
+  }
+}</code></pre>
+
+<p>render props:</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+
+export default class Parent extends Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;父组件Parent&lt;/h1&gt;
+        {/* &lt;A&gt; hello &lt;/A&gt; */}
+            
+        {/* 传递一个render属性，值是一个函数，函数返回的是一个组件B */}
+        &lt;A render={(name) =&gt; &lt;B name={name} /&gt;}&gt;&lt;/A&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+class A extends Component {
+  state = { name: 'jack' };
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h3&gt;子组件A&lt;/h3&gt;
+        {/* children props方式来接受 */}
+        {/* &lt;h4&gt;{this.props.children}&lt;/h4&gt; */}
+
+        {/* 通过this.props.render()来接受，类似于this.props.children */}
+        {/* 但是可以传递数据 如this.state.name */}
+        &lt;h4&gt;{this.props.render(this.state.name)}&lt;/h4&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+class B extends Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h5&gt;孙组件B&lt;/h5&gt;
+        {/* 接收的name在这里展示 */}
+        &lt;h4&gt;{this.props.name}&lt;/h4&gt;
+      &lt;/div&gt;
+    );
+  }
+}</code></pre>
+
+<p>其实this.props.render()相当于一个插槽，想引入哪个插件，在render属性里修改就可以。</p>
+<p>比如想展示C组件</p>
+<pre class="language-react" data-language="react"><code class="language-react">&lt;A render={(name) =&gt; &lt;C name={name} /&gt;}&gt;&lt;/A&gt;</code></pre>
+
+<h1 id="八、Error-boundary-错误边界"><a href="#八、Error-boundary-错误边界" class="headerlink" title="八、Error boundary - 错误边界"></a>八、Error boundary - 错误边界</h1><p>错误边界：用来捕获<strong>后代组件错误</strong>，渲染出备用页面</p>
+<p>特点：</p>
+<ul>
+<li>只能捕获后代组件生命周期产生的错误，</li>
+<li>不能捕获自己组件产生的错误和其他组件在合成事件、定时器中产生的错误</li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+import Child from './Child';
+export default class Parent extends Component {
+  state = { hasError: '' };
+  //生命周期函数，一旦后代组件报错，就会触发
+  static getDerivedStateFromError(error) {
+    return {
+        // 在render之前触发
+    	// 返回新的state
+      hasError: error,
+    };
+  }
+  compomentDidCatch() {
+    //一般用于统计页面发生的错误，发送请求给后台进行处理
+  }
+  render() {
+    return (
+      &lt;div&gt;
+        this.state.hasError ? &lt;h2&gt;网络加载缓慢，请等待...&lt;/h2&gt; : &lt;Child /&gt;
+      &lt;/div&gt;
+    );
+  }
+}</code></pre>
+
+<h1 id="九、组件通信方式总结"><a href="#九、组件通信方式总结" class="headerlink" title="九、组件通信方式总结"></a>九、组件通信方式总结</h1><p>props：</p>
+<ul>
+<li>children props</li>
+<li>render props</li>
+</ul>
+<p>消息订阅-发布：</p>
+<ul>
+<li>pubs-sub、event等等</li>
+</ul>
+<p>集中式管理：</p>
+<ul>
+<li>redux、dva等等</li>
+</ul>
+<p>conText:</p>
+<ul>
+<li>生产者-消费者模式</li>
+</ul>
+<p>建议使用的方式：</p>
+<ul>
+<li>父子组件：props</li>
+<li>兄弟组件(非嵌套组件)：消息订阅-发布、集中式管理</li>
+<li>祖孙组件(跨级组件)：消息订阅-发布、集中式管理、conText(用的少)</li>
+</ul>
+<h1 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h1><p>2021.11.02-2021.12.04</p>
+<p>历时将近一个月，学完react基础。</p>
+<p>下一步实战  - webpack - js底层 - vue3</p>
+<p>感谢尚硅谷天禹男神老师，react课程当数第一。</p>
+<p>链接<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1wy4y1D7JT?from=search&amp;seid=16816498486462185277&amp;spm_id_from=333.337.0.0">https://www.bilibili.com/video/BV1wy4y1D7JT?from=search&amp;seid=16816498486462185277&amp;spm_id_from=333.337.0.0</a></p>
+<p><img src="http://cdn.michstabe.cn/blog/211204/J6c86KI7E2.png?imageslim"></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">MichstaBe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://ulrica-ch.github.io/posts/18655065/">https://ulrica-ch.github.io/posts/18655065/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">MichstaBe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/React/">
+                                    <span class="chip bg-color">React</span>
+                                </a>
+                            
+                                <a href="/tags/React-Hooks/">
+                                    <span class="chip bg-color">React Hooks</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/">
+                                    <span class="chip bg-color">组件通信</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'baPwGXa2IUzmtvSuQn1I4WT7-gzGzoHsz',
+        appKey: 'MNnOEMRv9FirEbhOGxroPx1b',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/posts/3954652493/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="一、TypeScript-认识TypeScript">
+                        
+                        <span class="card-title">一、TypeScript-认识TypeScript</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-12-05
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/TypeScript/" class="post-category">
+                                    TypeScript
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/TypeScript/">
+                        <span class="chip bg-color">TypeScript</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%B5%8B/">
+                        <span class="chip bg-color">类型检测</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/posts/1809249476/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="十五、React-Redux">
+                        
+                        <span class="card-title">十五、React-Redux</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-02
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/React/" class="post-category">
+                                    React
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/React/">
+                        <span class="chip bg-color">React</span>
+                    </a>
+                    
+                    <a href="/tags/Redux/">
+                        <span class="chip bg-color">Redux</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021</span>
+            
+            <a href="/about" target="_blank">MichstaBe-XY</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">104.2k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Ulrica-CH" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:210871791@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=210871791" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 210871791" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

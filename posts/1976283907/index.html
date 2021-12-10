@@ -1,0 +1,2045 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="JavaScript">
+    <meta name="description" content="# 一、执行上下文 Execution Context EC
+
+
+执行程序需要有执行环境， Java 需要 Java 虚拟机，同样解析 JavaScript 也需要执行环境，我们称它为“执行上下文”。
+执行上下文是评估和执行JavaScri">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>三、JavaScript是如何运行的-预解析阶段 | MichstaBe</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">MichstaBe</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/todolist" class="waves-effect waves-light">
+      
+      <i class="fas" style="zoom: 0.6;"></i>
+      
+      <span>todolist</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">MichstaBe</div>
+        <div class="logo-desc">
+            
+            心中有梦，眼里有光，铭记过去，拥抱未来
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/todolist" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas"></i>
+			
+			todolist
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">三、JavaScript是如何运行的-预解析阶段</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/JavaScript/">
+                                <span class="chip bg-color">JavaScript</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/JavaScript/" class="post-category">
+                                JavaScript
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-11-05
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2021-12-10
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    5.8k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    21 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                # 一、执行上下文 Execution Context EC
+
+<ul>
+<li>执行程序需要有执行环境， Java 需要 Java 虚拟机，同样解析 JavaScript 也需要执行环境，我们称它为“执行上下文”。</li>
+<li>执行上下文是评估和执行JavaScript代码的环境的<strong>抽象</strong>概念，是对 JavaScript 代码执行环境的一种抽象。每当JavaScript代码在执行的时候，他都是在执行上下文中执行。 </li>
+</ul>
+<h1 id="二、执行上下文的类型"><a href="#二、执行上下文的类型" class="headerlink" title="二、执行上下文的类型"></a>二、执行上下文的类型</h1><p>JavaScript中有三种执行上下文类型：</p>
+<h2 id="全局执行上下文"><a href="#全局执行上下文" class="headerlink" title="全局执行上下文"></a>全局执行上下文</h2><ul>
+<li><ul>
+<li><p>当 JS 引擎执行全局代码的时候，会编译全局代码并创建执行上下文，它会做两件事：</p>
+</li>
+<li><ul>
+<li>创建一个全局的 window 对象(浏览器环境下)，</li>
+<li>将 this 的值设置为该全局对象；全局上下文在整个页面生命周期有效，<strong>一个程序中只会有一个全局执行上下文。</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="函数执行上下文"><a href="#函数执行上下文" class="headerlink" title="函数执行上下文"></a>函数执行上下文</h2><ul>
+<li><ul>
+<li>每当一个函数被调用时, 都会为该函数创建一个新的上下文。每个函数都有它自己的执行上下文，不过是在函数被<strong>调用</strong>时创建的。函数上下文可以有任意多个。每当一个新的执行上下文被创建，它会按定义的顺序（将在后文讨论）执行一系列步骤。一般情况下，函数执行结束之后，创建的函数执行上下文会被销毁。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Eval函数执行上下文"><a href="#Eval函数执行上下文" class="headerlink" title="Eval函数执行上下文"></a>Eval函数执行上下文</h2><ul>
+<li><ul>
+<li>调用 eval 函数也会创建自己的执行上下文（eval函数容易导致恶意攻击，并且运行代码的速度比相应的替代方法慢，因此<strong>不推荐使用</strong>）</li>
+</ul>
+</li>
+</ul>
+<p>看一张图片方便理解</p>
+<p><img src="http://cdn.michstabe.cn/blog/211105/ED1A74f0GJ.png?imageslim"></p>
+<ul>
+<li>图中一共用 4 个执行上下文。紫色的代表全局的上下文；绿色代表 person 函数内的上下文；蓝色以及橙色代表 person 函数内的另外两个函数的上下文。</li>
+<li><strong>只存在一个全局的上下文，该上下文能被任何其它的上下文所访问到</strong>。也就是说，我们可以在 person 的上下文中访问到全局上下 文中的 sayHello 变量，当然在函 firstName 或者 lastName 中同样可以访问到该变量。</li>
+<li>函数上下文的个数是没有任何限制的，每到调用执行一个函数时，解释器就会自动新建出一个函数上下文，换句话说，就是新建一个局部作用域，可以在该局部作用域中声明私有变量等，在<strong>外部的上下文中是无法直接访问到该局部作用域内的元素的</strong>。</li>
+</ul>
+<h1 id="三、执行栈-Execution-Context-Stack"><a href="#三、执行栈-Execution-Context-Stack" class="headerlink" title="三、执行栈 Execution Context Stack"></a>三、执行栈 Execution Context Stack</h1><ul>
+<li>javascript 引擎创建了 “执行上下文栈” （Execution context stack 简称 ECS）来管理执行上下文。</li>
+<li>执行上下文栈是栈结构的，因此遵循 LIFO（后进先出）的特性，代码执行期间创建的所有执行上下文，都会交给执行上下文栈进行管理。</li>
+<li>当 JS 引擎开始解析脚本代码时，会首先创建一个全局执行上下文，压入栈底（<strong>这个全局执行上下文从创建一直到程序销毁，都会存在于栈的底部</strong>）。</li>
+<li>每当引擎发现一处函数调用，就会创建一个新的函数执行上下文压入栈内，并将控制权交给该上下文，待函数执行完成后，即将该执行上下文从栈内弹出销毁，将控制权重新给到栈内上一个执行上下文。</li>
+</ul>
+<p>把执行上下文栈可视化大概是下图这个样子：</p>
+<p><img src="http://cdn.michstabe.cn/blog/211105/75lgCc4ifB.png?imageslim"></p>
+<ul>
+<li>栈顶是当前活动的执行上下文，也就是程序正在栈顶那个执行环境运行。栈底是全局执行上下文，因为程序一运行立即入栈的就是全局执行上下文，<strong>我们写的 JS 代码都是在全局执行上下文环境运行的</strong>。</li>
+<li>通过出栈和入栈，切换当前程序代码的执行环境。类似于原型链，上下文也有父执行上下文，子执行上下文。子执行上下文可以访问父执行上下文，但<strong>父执行上下文不能访问子执行上下文。****上下文之间使用 scope 链接起来，我们把它称为 Scope Chain 作用域链。</strong></li>
+</ul>
+<h1 id="四、ES3中的执行上下文"><a href="#四、ES3中的执行上下文" class="headerlink" title="四、ES3中的执行上下文"></a>四、ES3中的执行上下文</h1><p>执行上下文可以理解成当前的执行环境，与该运行环境相对应。创建执行上下文的过程中，主要是做了下面三件事，如图所示：</p>
+<p><img src="http://cdn.michstabe.cn/blog/211105/5jIh466f15.png?imageslim"></p>
+<p>1、创建变量对象（variable object）</p>
+<p>2、创建作用域链（scope chain）</p>
+<p>3、确定this的指向</p>
+<h2 id="变量对象-variable-object-VO"><a href="#变量对象-variable-object-VO" class="headerlink" title="变量对象 variable object  VO"></a>变量对象 variable object  VO</h2><ul>
+<li>每个执行环境文变量对象，全局执行环境的变量对象始终存在，而函数这样局部环境的变量，只会在函数执行的过程中存在；</li>
+<li>在函数被调用时且在具体的函数代码运行之前，<strong>JS 引擎会用当前函数的参数列表（arguments）</strong>初始化一个 “变量对象” ，并将当前执行上下文与之关联；</li>
+<li>函数代码块中声明的变量和函数将作为属性添加到这个变量对象上。</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li><strong>变量对象（VO）是规范上或者是JS引擎上实现的，并不能在JS环境中直接访问。</strong></li>
+<li><strong>当进入到一个执行上下文后</strong>，这个变量对象才会被激活，所以叫活动对象（AO），这时候活动对象上的各种属性才能被访问。</li>
+</ul>
+<h3 id="变量对象的创建"><a href="#变量对象的创建" class="headerlink" title="变量对象的创建"></a>变量对象的创建</h3><ul>
+<li>Chrome 浏览器中，变量对象会首先获得函数的参数变量及其值；在 Firefox 浏览器中，是直接将参数对象 arguments 保存在变量对象中。</li>
+<li>函数声明提升，<strong>如果相同函数名则覆盖。</strong></li>
+<li>变量声明提升，<strong>遇到同名的不会重新声明，只会赋值</strong>。此处为var声明的变量，let和const声明是执行阶段才开始执行。</li>
+</ul>
+<h3 id="相关例子1"><a href="#相关例子1" class="headerlink" title="相关例子1"></a>相关例子1</h3><pre class="language-html" data-language="html"><code class="language-html">var a = 20; 
+var b = 30;
+function fn() {console.log('fn')} ; 
+function fn() {console.log('cover fn.')};
+function a() {console.log('cover a.')}; 
+console.log(a); 
+console.log(b);
+fn(); 
+var fn = 'I wa cover function named fn.'; 
+console.log (fn); </code></pre>
+
+<p>首先：</p>
+<pre class="language-html" data-language="html"><code class="language-html">VO = {
+    arguments:{},
+}</code></pre>
+
+<p>接着声明提升：</p>
+<pre class="language-html" data-language="html"><code class="language-html">VO = {
+    arguments:{},
+    fn:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>fn</span> <span class="token attr-name">reference</span><span class="token punctuation">&gt;</span></span>,
+    a:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">reference</span><span class="token punctuation">&gt;</span></span>,
+    b:undefined
+}
+//函数提升
+function fn() {console.log('fn')} ; 
+function a() {console.log('cover a.')}; 
+//同名覆盖
+function fn() {console.log('cover fn.')};
+a不变 重名了不会再次声明
+b undefined</code></pre>
+
+<p>然后进入执行阶段：</p>
+<pre class="language-html" data-language="html"><code class="language-html">AO = {
+    arguments:{},
+    fn:'I wa cover function named fn.',
+    a:20,
+    b:30
+}
+输出的值是:
+20
+30
+cover fn.
+
+// 这里的fn不会声明了 但重新赋值了
+I wa cover function named fn.</code></pre>
+
+<h3 id="相关例子2"><a href="#相关例子2" class="headerlink" title="相关例子2"></a>相关例子2</h3><pre class="language-html" data-language="html"><code class="language-html">// 函数执行上下文带参数的话，在创建阶段就会被赋值。
+function foo(a) {
+  var b = 2;
+  function c() {}
+  var d = function() {};
+  b = 3;
+}
+foo(1);
+
+AO(foo) = {
+    arguments: {
+        0: 1,
+        length: 1
+    },
+    a: 1,
+    b: undefined,
+    c: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>c</span> <span class="token attr-name">reference</span><span class="token punctuation">&gt;</span></span>,
+    d: undefined
+}</code></pre>
+
+<p>全局执行上下文和函数执行上下文中的变量对象略有不同：</p>
+<ul>
+<li>全局上下文中的变量对象就是全局对象，以浏览器环境来说，就是 window 对象。</li>
+<li>函数执行上下文中的变量对象内部定义的属性，是不能被直接访问的，只有<strong>变量对象（VO）被激活为活动对象（AO）时，我们才能访问到其中的属性和方法。</strong></li>
+</ul>
+<h2 id="活动对象-activation-object-AO"><a href="#活动对象-activation-object-AO" class="headerlink" title="活动对象 activation object AO"></a>活动对象 activation object AO</h2><ul>
+<li>函数进入执行上下文时，原本不能访问的变量对象被激活成为一个活动对象，自此，我们可以访问到其中的各种属性。<strong>其实变量对象和活动对象是一个东西，只不过处于不同的状态和阶段而已。</strong></li>
+</ul>
+<h2 id="作用域链-scope-chain"><a href="#作用域链-scope-chain" class="headerlink" title="作用域链  scope chain"></a>作用域链  scope chain</h2><ul>
+<li><strong>作用域链</strong>规定了如何查找变量，也就是确定当前执行代码对变量的访问权限。</li>
+<li>当<strong>查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级（词法作用域上的父级，也就是函数定义时的作用域的父级）执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象</strong>。</li>
+<li>这样由多个执行上下文的变量对象构成的链表就叫做 <strong>作用域链</strong>。</li>
+<li><strong>函数的作用域在函数创建时就已经确定了</strong>。当函数创建时，会有一个名为 <strong>[[scope]]</strong> 的内部属性保存所有父变量对象到其中。当函数执行时，会创建一个执行环境，然后通过<strong>复制函数的</strong> <strong>[[scope]]</strong> <strong>属性中的对象构建起执行环境的作用域链</strong>，然后，变量对象 VO 被激活生成 AO 并添加到作用域链的前端，完整作用域链创建完成：</li>
+</ul>
+<pre class="language-html" data-language="html"><code class="language-html">Scope = [AO].concat([[Scope]]);</code></pre>
+
+<h3 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h3><pre class="language-html" data-language="html"><code class="language-html">function foo(){
+    function bar(){}
+}</code></pre>
+
+<p>函数创建时，各自的 [[scope]] 为：</p>
+<pre class="language-html" data-language="html"><code class="language-html">foo.[[scope]] = [
+    globalContext.VO
+];
+bar.[[scope]] = [
+    fooContext.AO,
+    globalContext.VO
+]</code></pre>
+
+<p>当函数激活时，进入函数上下文，创建 VO/AO 后，就会将活动对象添加到作用域链的前端。</p>
+<pre class="language-html" data-language="html"><code class="language-html">Scope = [AO].concat([[scope]])</code></pre>
+
+<p>至此，作用域链创建完毕。</p>
+<h2 id="this"><a href="#this" class="headerlink" title="this"></a>this</h2><ul>
+<li>在全局执行上下文中，this 的值指向全局对象，在浏览器中 this 的值指向 window 对象。</li>
+<li> 在函数执行上下文中，this 的值取决于函数的调用方式。具体有：默认绑定、隐式绑定、默认绑定（硬绑定）、new 绑定、箭头函数。</li>
+</ul>
+<h1 id="五、ES5-中的执行上下文"><a href="#五、ES5-中的执行上下文" class="headerlink" title="五、ES5 中的执行上下文"></a>五、ES5 中的执行上下文</h1><ul>
+<li>ES5 规范又对 ES3 中执行上下文的部分概念做了调整</li>
+<li>最主要的调整，就是去除了 ES3 中变量对象和活动对象</li>
+<li>以 <strong>词法环境组件（</strong> <strong>LexicalEnvironment component****）</strong> 和 <strong>变量环境组件（</strong> <strong>VariableEnvironment component****）</strong> 替代。</li>
+</ul>
+<h2 id="创建阶段"><a href="#创建阶段" class="headerlink" title="创建阶段"></a>创建阶段</h2><p>ES5执行上下文创建阶段会做三件事：</p>
+<ul>
+<li>绑定 this</li>
+<li>创建<strong>词法环境</strong></li>
+<li>创建<strong>变量环境</strong></li>
+</ul>
+<p>所以执行上下文在概念上表示如下：</p>
+<pre class="language-html" data-language="html"><code class="language-html">ExecutionContext = {
+  ThisBinding = <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>this</span> <span class="token attr-name">value</span><span class="token punctuation">&gt;</span></span>,
+  LexicalEnvironment = { ... },
+  VariableEnvironment = { ... },
+}</code></pre>
+
+<h3 id="绑定this"><a href="#绑定this" class="headerlink" title="绑定this"></a>绑定this</h3><ul>
+<li>在全局执行上下文中，this 的值指向全局对象。(在浏览器中，this 引用 Window 对象)。</li>
+<li>在函数执行上下文中，this 的值取决于该函数是如何被调用的<ul>
+<li>通过对象方法调用函数，this 指向调用的对象</li>
+<li>声明函数后使用函数名称普通调用，this 指向全局对象，<strong>严格模式下 this 值是 undefined</strong></li>
+<li>使用 new 方式调用函数，this 指向新创建的对象</li>
+<li>使用 <strong>call、apply、bind</strong> 方式调用函数，会改变 this 的值，指向传入的第一个参数</li>
+</ul>
+</li>
+</ul>
+<pre class="language-html" data-language="html"><code class="language-html">function fn () {
+  console.log(this)
+}
+fn() // 普通函数调用，this 指向window对象
+
+function fn1 () {
+  'use strict'
+  console.log(this)
+}
+fn() // 严格模式下，this 值为 undefined
+
+let foo = {
+  baz: function() {
+  console.log(this);
+  }
+}
+foo.baz();   // 'this' 指向 'foo'
+
+let bar = foo.baz;
+bar();// 'this' 指向全局 window 对象，因为没有指定引用对象
+
+let obj {
+  name: 'hello'
+}
+foo.baz.call(obj) // call 改变this值，指向obj对象</code></pre>
+
+<h3 id="词法环境"><a href="#词法环境" class="headerlink" title="词法环境"></a>词法环境</h3><ul>
+<li><p>官方解释：词法环境是一种规范类型，<strong>基于 ECMAScript 代码的词法嵌套结构来定义标识符和具体变量和函数的关联</strong>。</p>
+</li>
+<li><p>一个词法环境由环境记录器和一个可能的引用外部词法环境的空值组成。简单来说 <strong>词法环境</strong> 是一种持有 <strong>标识符—变量映射</strong> 的结构。这里的 <strong>标识符</strong> 指的是变量/函数的名字，而 <strong>变量</strong> 是对实际对象（包含函数类型对象）或原始数据的引用。</p>
+</li>
+<li><p>每一个词法环境由下面两部分组成：</p>
+</li>
+<li><ul>
+<li>环境记录：变量对象 =&gt; 存储声明的变量和函数（ let, const, function，函数参数）</li>
+<li>外部环境引用：作用域链</li>
+</ul>
+</li>
+<li><p>词法环境有两种类型：</p>
+</li>
+<li><p><strong>全局环境</strong>：（在全局执行上下文中）是一个没有外部环境的词法环境。全局环境的外部环境引用为 <strong>null</strong>。它拥有一个全局对象（window 对象）及其关联的方法和属性（例如数组方法）以及任何用户自定义的全局对象，this 的值指向这个全局对象。</p>
+</li>
+<li><p><strong>函数环境</strong>：用户在函数中定义的变量被存储在<strong>环境记录</strong>中。对外部环境的引用可以是全局环境，也可以是包含内部函数的外部函数环境。</p>
+</li>
+</ul>
+<pre class="language-html" data-language="html"><code class="language-html">var a = 2;
+var b = 4;
+function foo() {
+  console.log('bar');
+}</code></pre>
+
+<p>上面代码的词法环境类似这样：</p>
+<pre class="language-html" data-language="html"><code class="language-html">lexicalEnvironment = {
+  a: 2,
+  b: 4,
+  foo: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ref.</span> <span class="token attr-name">to</span> <span class="token attr-name">foo</span> <span class="token attr-name">function</span><span class="token punctuation">&gt;</span></span>
+}</code></pre>
+
+<h3 id="环境记录"><a href="#环境记录" class="headerlink" title="环境记录"></a>环境记录</h3><p>所谓的环境记录就是词法环境中记录变量和函数声明的地方，环境记录也有两种类型：</p>
+<ul>
+<li><p><strong>声明类环境记录</strong>。顾名思义，它存储的是变量和函数声明，函数的词法环境内部就包含着一个声明类环境记录。</p>
+</li>
+<li><p><strong>对象环境记录</strong>。全局环境中的词法环境中就包含的就是一个对象环境记录。除了变量和函数声明外，对象环境记录还包括全局对象（浏览器的window对象）。因此，对于对象的每一个新增属性（对浏览器来说，它包含浏览器提供给window对象的所有属性和方法），都会在该记录中创建一个新条目。</p>
+</li>
+<li><p>注意：对函数而言，环境记录还包含一个arguments对象，该对象是个类数组对象，<strong>包含参数索引和参数的映射以及一个传入函数的参数的长度属性</strong>。举个例子，一个arguments对象像下面这样：</p>
+</li>
+</ul>
+<pre class="language-htnl" data-language="htnl"><code class="language-htnl">function foo(a, b) {
+  var c = a + b;
+}
+foo(2, 3);
+// argument 对象类似下面这样
+Arguments: { 0: 2, 1: 3, length: 2 }</code></pre>
+
+<ul>
+<li>环境记录对象在**创建阶段也被称为变量对象(VO)，在执行阶段被称为活动对象(AO)**。</li>
+<li>之所以被称为变量对象是因为此时该对象只是存储执行上下文中变量和函数声明，<strong>之后代码开始执行，变量会逐渐被初始化或是修改，然后这个对象就被称为活动对象</strong></li>
+</ul>
+<h3 id="外部环境引用"><a href="#外部环境引用" class="headerlink" title="外部环境引用"></a>外部环境引用</h3><ul>
+<li>对于外部环境的引用意味着在当前执行上下文中可以访问外部词法环境。</li>
+<li>也就是说，如果在当前的词法环境中找不到某个变量，那么Javascript引擎会试图在上层的词法环境中寻找。（Javascript引擎会根据这个属性来构成我们常说的作用域链）</li>
+</ul>
+<p>词法环境抽象出来类似下面的伪代码：</p>
+<pre class="language-html" data-language="html"><code class="language-html">// 全局执行上下文
+GlobalExectionContext = {
+    // 词法环境
+    LexicalEnvironment: {
+        // 环境记录
+        EnvironmentRecord: {
+            Type: "Object", // 全局环境
+            // ... 标识符绑定在这里
+           outer: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>null</span><span class="token punctuation">&gt;</span></span>,	// 对外部环境的引用
+        }
+    }
+}
+// 函数执行上下文
+FunctionExectionContext = {
+    LexicalEnvironment: {
+        EnvironmentRecord: {
+            Type: "Declarative",// 函数环境
+            // ... 标识符绑定在这里
+            // 对全局环境或外部函数环境的引用
+            outer: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Global</span> <span class="token attr-name">or</span> <span class="token attr-name">outer</span> <span class="token attr-name">function</span> <span class="token attr-name">environment</span> <span class="token attr-name">reference</span><span class="token punctuation">&gt;</span></span>,
+        }
+    }
+}</code></pre>
+
+<h3 id="变量环境"><a href="#变量环境" class="headerlink" title="变量环境"></a>变量环境</h3><p><strong>变量环境</strong> 它也是一个 <strong>词法环境</strong> ，所以它有着词法环境的所有特性。</p>
+<ul>
+<li>之所以在ES5的规范中要单独分出一个变量环境的概念是为 ES6 服务的： 在 ES6 中，词法环境组件和变量环境组件的一个不同就是<strong>词法环境被用来存储函数声明和变量（let 和 const）绑定，而变量环境只用来存储 var 变量绑定。</strong></li>
+</ul>
+<p>看点样例代码来理解上面的概念：</p>
+<pre class="language-html" data-language="html"><code class="language-html">let a = 20;
+const b = 30;
+var c;
+function multiply(e, f) {
+ var g = 20;
+ return e * f * g;
+}
+c = multiply(20, 30);</code></pre>
+
+<p>执行起来看起来像这样：</p>
+<pre class="language-html" data-language="html"><code class="language-html">// 全局执行上下文
+GlobalExectionContext = {
+    ThisBinding: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Global</span> <span class="token attr-name">Object</span><span class="token punctuation">&gt;</span></span>,
+    // 词法环境
+    LexicalEnvironment: {
+    	EnvironmentRecord: {
+    		Type: "Object",
+    		// 标识符绑定，let、const、函数声明 
+    		a: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>uninitialized</span><span class="token punctuation">&gt;</span></span>,
+        b: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>uninitialized</span><span class="token punctuation">&gt;</span></span>,
+    	multiply:&lt; func &gt;
+		}
+		outer: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>null</span><span class="token punctuation">&gt;</span></span>
+	},
+    // 变量环境
+    VariableEnvironment: {
+        EnvironmentRecord: {
+            Type: "Object",
+            // 标识符绑定，var 声明
+            c: undefined,
+        }
+        outer: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>null</span><span class="token punctuation">&gt;</span></span>
+    }
+}
+
+// 函数执行上下文
+FunctionExectionContext = {
+    ThisBinding: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Global</span> <span class="token attr-name">Object</span><span class="token punctuation">&gt;</span></span>,
+    //词法环境
+    LexicalEnvironment: {
+    	EnvironmentRecord: {
+    		Type: "Declarative",
+    		// 标识符绑定
+    		Arguments: { 0:20, 1:30, length: 2},
+		},
+        outer: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>GlobalLexicalEnvironment</span><span class="token punctuation">&gt;</span></span>
+	},
+    //变量环境
+    VariableEnvironment: {
+        EnvironmentRecord: {
+          Type: "Declarative",
+          // 在这里绑定标识符
+          g: undefined
+        },
+        outer: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>GlobalLexicalEnvironment</span><span class="token punctuation">&gt;</span></span>
+  	}
+}</code></pre>
+
+<p><strong>注意</strong> </p>
+<ul>
+<li><strong>只有遇到调用函数 multiply 时，函数执行上下文才会被创建。</strong></li>
+<li> let 和 const 定义的变量并没有关联任何值，但 var 定义的变量被设成了 undefined。</li>
+<li>这是因为在创建阶段时，引擎检查代码找出变量和函数声明，虽然函数声明完全存储在环境中，但是<strong>变量最初设置为 undefined（var 情况下），或者未初始化（let 和 const 情况下）</strong>。</li>
+<li>这就是为什么可以在声明之前访问 var 定义的变量（虽然是 undefined），但是在声明之前访问 let 和 const 的变量会得到一个引用错误。</li>
+</ul>
+<h2 id="执行阶段"><a href="#执行阶段" class="headerlink" title="执行阶段"></a>执行阶段</h2><ul>
+<li>经过上面的创建执行上下文，就开始执行 JavaScript 代码了。在执行阶段，如果 JavaScript 引擎不能在源码中声明的实际位置找到 let 变量的值，它会被赋值为 undefined 。</li>
+</ul>
+<h2 id="回收阶段"><a href="#回收阶段" class="headerlink" title="回收阶段"></a>回收阶段</h2><ul>
+<li>执行上下文出栈等待虚拟机回收执行上下文。</li>
+</ul>
+<h1 id="六、递归和栈溢出"><a href="#六、递归和栈溢出" class="headerlink" title="六、递归和栈溢出"></a>六、递归和栈溢出</h1><p>在了解了调用栈的运行机制后，我们可以考虑一个问题，这个执行上下文栈可以被无限压栈吗？很显然是不行的，执行栈本身也是有容量限制的，当执行栈内部的执行上下文对象积压到一定程度如果继续积压，就会报 “栈溢出（stack overflow）” 的错误。栈溢出错误经常会发生在 <strong>递归</strong> 中。</p>
+<p><img src="http://cdn.michstabe.cn/blog/211105/IGK2K8f4E8.png?imageslim"></p>
+<p>递归的使用场景，通常是在运行次数未知的情况下，程序会设定一个限定条件，除非达到该限定条件否则程序将一直调用自身运行下去。递归的适用场景非常广泛，比如累加函数：</p>
+<pre class="language-html" data-language="html"><code class="language-html">// 求 1~num 的累加，此时 num 由外部传入，是未知的
+function recursion (num) {
+    if (num === 0) return num;
+    return recursion(num - 1) + num;
+}
+
+recursion(100) // =&gt; 5050
+recursion(1000) // =&gt; 500500
+recursion(10000) // =&gt; 50005000
+recursion(100000) // =&gt; Uncaught RangeError: Maximum call stack size exceeded</code></pre>
+
+<p>在计算 1 ~ 100000 的累加和的时候，执行栈就崩不住了，触发了栈溢出的错误。</p>
+<h1 id="七、尾递归优化"><a href="#七、尾递归优化" class="headerlink" title="七、尾递归优化"></a>七、尾递归优化</h1><ul>
+<li>“尾” 的意思是 “尾调用（Tail Call）”，即<strong>函数的最后一步是返回一个函数的运行结果：</strong></li>
+</ul>
+<pre class="language-html" data-language="html"><code class="language-html">// 尾调用正确示范1
+function a(x){
+  return b(x);
+}
+
+// 尾调用正确示范2
+// 尾调用不一定要写在函数的最后为止，只要保证执行时是最后一部操作就行了。
+function c(x) {
+  if (x &gt; 0) {
+    return d(x);
+  }
+  return e(x);
+}</code></pre>
+
+<ul>
+<li>尾调用之所以与其他调用不同，就在于它的特殊的调用位置。</li>
+<li>尾调用由于是函数的最后一步操作，所以不需要保留外层函数的相关信息，因为调用位置、内部变量等信息都不会再用到了，只要直接用内层函数的调用记录，取代外层函数的调用记录就可以了，这样一来，运行尾递归函数时，执行栈永远只会新增一个上下文。</li>
+</ul>
+<h1 id="八、典型面试题"><a href="#八、典型面试题" class="headerlink" title="八、典型面试题"></a>八、典型面试题</h1><p>8.1、</p>
+<pre class="language-html" data-language="html"><code class="language-html">// 1
+var foo = function () {
+    console.log('foo1');
+}
+foo(); //foo1
+var foo = function () {
+    console.log('foo2');
+}
+foo(); //foo2
+
+// 2
+var foo1 = function () {
+    console.log('foo1');
+}
+var foo1 = function () {
+    console.log('foo2');
+}
+foo1(); //foo2</code></pre>
+
+<p>8.2、</p>
+<pre class="language-html" data-language="html"><code class="language-html">foo(); //foo2
+
+var foo = function foo() {
+    console.log('foo1');
+}
+
+function foo() {
+    console.log('foo2');
+}
+
+foo(); //foo1</code></pre>
+
+<p>全局执行环境自动创建，过程中生成了变量对象进行函数变量的属性收集，造成了函数声明提升、变量声明提升。</p>
+<p>由于函数声明提升更加靠前，且如果<strong>var定义变量的时候发现已有同名函数定义则跳过变量定义,直接赋值</strong>，上面的代码其实可以写成下面这样：</p>
+<pre class="language-html" data-language="html"><code class="language-html">function foo() {
+            console.log('foo2');
+        }
+        foo(); // foo2
+        foo = function foo() {
+            console.log('foo1');
+        }
+        foo(); //foo1</code></pre>
+
+<p>8.3、</p>
+<pre class="language-html" data-language="html"><code class="language-html">var foo = 1;
+function bar () {
+    console.log(foo);
+    var foo = 10;
+    console.log(foo);
+}
+bar();</code></pre>
+
+<p>bar 函数运行，内部变量申明提升，当执行代码块中有访问变量时，先查找本地作用域，找到了 foo 为 undefined ，打印出来。然后 foo 被赋值为 10 ，打印出 10。代码相当于：</p>
+<pre class="language-html" data-language="html"><code class="language-html">function bar() {
+            var foo ;
+            console.log(foo);  //undefined
+            foo = 10
+            console.log(foo); // 10
+        } 
+        var foo ;
+        foo = 1;
+        bar()</code></pre>
+
+<p>8.4、</p>
+<pre class="language-html" data-language="html"><code class="language-html">function foo() {
+    console.log(a);
+    a = 1;
+}
+foo(); // ???
+function bar() {
+    a = 1;
+    console.log(a);
+}
+bar(); // ???</code></pre>
+
+<p>第一段会报错：Uncaught ReferenceError: a is not defined。第二段会打印：1。</p>
+<p>这是因为函数中的 “a” 并没有通过 var 关键字声明，所有不会被存放在 AO 中。第一段执行 console 的时候， AO 的值是：</p>
+<pre class="language-html" data-language="html"><code class="language-html">AO = {
+    arguments: {
+        length: 0
+    }
+}</code></pre>
+
+<p>没有 a 的值，然后就会到全局去找，全局也没有，所以会报错。当第二段执行 console 的时候，全局对象已经被赋予了 a 属性，这时候就可以从全局找到 a 的值，所以会打印 1。</p>
+<h1 id="九、补充：执行栈应用"><a href="#九、补充：执行栈应用" class="headerlink" title="九、补充：执行栈应用"></a>九、补充：执行栈应用</h1><h2 id="利用浏览器查看栈的调用信息"><a href="#利用浏览器查看栈的调用信息" class="headerlink" title="利用浏览器查看栈的调用信息"></a>利用浏览器查看栈的调用信息</h2><ul>
+<li>我们知道执行栈是用来管理执行上下文调用关系的数据结构，那么我们在实际工作中如何运用它呢。</li>
+<li>答案是我们可以借助浏览器“开发者工具” source 标签，选择 JavaScript 代码打上断点，就可以查看函数的调用关系，并且可以切换查看每个函数的变量值</li>
+</ul>
+<p><img src="http://cdn.michstabe.cn/blog/211105/d7HG940h0e.webp"></p>
+<p>我们在 second 函数内部打上断点，就可以看到右边 Call Stack 调用栈显示 second 、first、(anonymous) 调用关系，second 是在栈顶(anonymous 在栈底相当于全局执行上下文)，执行second函数我们可以查看该函数作用域 Scope 局部变量a、b 和 num的值，通过查看调用栈的调用关系我们可以快速定位到我们代码执行的情况。</p>
+<p>那如果代码执行出错，也不知道在哪个地方打断点调试，那怎么查看出错地方的调用栈呢，告诉大家一个技巧，如下图</p>
+<p><img src="http://cdn.michstabe.cn/blog/211105/Lg4032B0F5.webp"></p>
+<p>我们不用打断点，执行上面两步操作，就可以在代码执行异常的地方自动打上断点。知道这个技巧后，再也不用担心代码出错了。</p>
+<p>除了上面通过断点来查看调用栈，还可以使用 console.trace() 来输出当前的函数调用关系，比如在示例代码中的 second 函数里面加上了 console.trace()，就可以看到控制台输出的结果，如下图：</p>
+<p><img src="http://cdn.michstabe.cn/blog/211105/k7Ima0De2j.webp"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>JavaScript执行分为两个阶段，编译阶段和执行阶段。</li>
+<li>编译阶段会经过词法分析、语法分析、代码生成步骤生成可执行代码；</li>
+<li>JS 引擎执行可执行性代码会创建执行上下文，包括绑定this、创建词法环境和变量环境；词法环境创建外部引用（作用域链）和 记录环境（变量对象，let, const, function, arguments），</li>
+<li>JS 引擎创建执行上下完成后开始单线程从上到下一行一行执行 JS 代码了。</li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">MichstaBe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://ulrica-ch.github.io/posts/1976283907/">https://ulrica-ch.github.io/posts/1976283907/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">MichstaBe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/JavaScript/">
+                                    <span class="chip bg-color">JavaScript</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'baPwGXa2IUzmtvSuQn1I4WT7-gzGzoHsz',
+        appKey: 'MNnOEMRv9FirEbhOGxroPx1b',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/posts/3460234465/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/36.jpg" class="responsive-img" alt="五、JavaScript深入变量提升与函数提升">
+                        
+                        <span class="card-title">五、JavaScript深入变量提升与函数提升</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-05
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/JavaScript/" class="post-category">
+                                    JavaScript
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/JavaScript/">
+                        <span class="chip bg-color">JavaScript</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/">
+                        <span class="chip bg-color">变量提升</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%87%BD%E6%95%B0%E6%8F%90%E5%8D%87/">
+                        <span class="chip bg-color">函数提升</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/posts/3614622398/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="四、React事件处理函数、高阶函数及柯里化">
+                        
+                        <span class="card-title">四、React事件处理函数、高阶函数及柯里化</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/React/" class="post-category">
+                                    React
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/React/">
+                        <span class="chip bg-color">React</span>
+                    </a>
+                    
+                    <a href="/tags/%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/">
+                        <span class="chip bg-color">高阶函数</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%9F%AF%E9%87%8C%E5%8C%96/">
+                        <span class="chip bg-color">柯里化</span>
+                    </a>
+                    
+                    <a href="/tags/React%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/">
+                        <span class="chip bg-color">React事件处理函数</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021</span>
+            
+            <a href="/about" target="_blank">MichstaBe-XY</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">104.2k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Ulrica-CH" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:210871791@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=210871791" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 210871791" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

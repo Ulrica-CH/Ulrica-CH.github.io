@@ -1,0 +1,2016 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="组件属性">
+    <meta name="description" content="&amp;lt;meta name=&#34;referrer&#34; content=&#34;no-referrer&#34; /&amp;gt;
+
+一、组件三大属性-state
+state是组件对象最重要的属性, 值是对象(可以包含多个key-value的组合)
+组件被称为”状态">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>三、React组件实例三大属性state、props、refs | MichstaBe</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">MichstaBe</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/todolist" class="waves-effect waves-light">
+      
+      <i class="fas" style="zoom: 0.6;"></i>
+      
+      <span>todolist</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">MichstaBe</div>
+        <div class="logo-desc">
+            
+            心中有梦，眼里有光，铭记过去，拥抱未来
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/todolist" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas"></i>
+			
+			todolist
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">三、React组件实例三大属性state、props、refs</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/React/">
+                                <span class="chip bg-color">React</span>
+                            </a>
+                        
+                            <a href="/tags/state/">
+                                <span class="chip bg-color">state</span>
+                            </a>
+                        
+                            <a href="/tags/props/">
+                                <span class="chip bg-color">props</span>
+                            </a>
+                        
+                            <a href="/tags/refs/">
+                                <span class="chip bg-color">refs</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/React/" class="post-category">
+                                React
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-11-04
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2021-12-10
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    14 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <pre class="language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>referrer<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>no-referrer<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span></code></pre>
+
+<h1 id="一、组件三大属性-state"><a href="#一、组件三大属性-state" class="headerlink" title="一、组件三大属性-state"></a>一、组件三大属性-state</h1><ul>
+<li>state是组件对象最重要的属性, <strong>值是对象</strong>(可以包含多个key-value的组合)</li>
+<li>组件被称为”状态机”, 通过<strong>更新组件的state来更新对应的页面显示</strong>(重新渲染组件)</li>
+<li>注意组件中自定义方法中的this问题（事件调用）</li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">&lt;script type="text/babel"&gt;
+        //1.创建组件
+        class Weather extends React.Component {
+            constructor(props) {
+                super(props)
+                //初始化状态
+                this.state = { isHot: true }
+            }
+            render() {
+                const { isHot } = this.state
+                return &lt;h1 onClick={this.changeWeather}&gt;今天天气很{isHot ? '炎热' : '凉爽'}&lt;/h1&gt;
+            }
+            changeWeather() {
+                //changeWeacher放到哪里？ -- Weather的原型对象上，供实例使用
+                //由于changeWeacher是作为onClick的回调，所以不是通过实例调用的，是直接调用的
+                //类中的方法默认开启了局部的严格模式，所以changeWeacher中的this为undefined
+                console.log(this); //undefined
+            }
+        }
+        //渲染组件到页面
+        ReactDOM.render(&lt;Weather /&gt;, document.getElementById('test'))
+    &lt;/script&gt;</code></pre>
+
+<ul>
+<li>由于changeWeacher是作为onClick的回调，所以不是通过实例调用的，是直接调用的</li>
+<li>类中的方法默认开启了局部的严格模式，所以changeWeacher中的this为undefined</li>
+<li>如何修改this指向？</li>
+</ul>
+<pre class="language-js" data-language="js"><code class="language-js"><span class="token comment">//强制修改this指向</span>
+<span class="token comment">//后面的this.changeWeacher是weather原型对象上的</span>
+<span class="token comment">//bind返回的是一个函数</span>
+<span class="token comment">//前面的this.changeWeacher时返回的新函数，并且this指向的是Weather实例对象</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>changeWeather <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">changeWeather</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span></code></pre>
+
+<ul>
+<li>修改组件中的状态值 setState</li>
+</ul>
+<pre class="language-js" data-language="js"><code class="language-js"><span class="token comment">//最后如何修改isHot的值来进行切换呢</span>
+<span class="token comment">//1.获取值</span>
+<span class="token keyword">const</span> isHot <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>isHot
+<span class="token comment">//注意：2.不允许直接修改值</span>
+<span class="token comment">// this.state.isHot = !isHot 错误写法 打印台显示数据改变，但是react检测不到</span>
+<span class="token comment">//3.要是有React.Component的方法setState</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span> isHot<span class="token operator">:</span> <span class="token operator">!</span>isHot <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">//总结</span>
+<span class="token comment">//状态必须通过setState进行更新，且更新是合并，不是替换</span>
+<span class="token comment">//state不可以直接修改</span></code></pre>
+
+<ul>
+<li>简写方式：赋值语句形式+箭头函数</li>
+<li>类中，要添加一个属性，可以采用直接赋值的方式</li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">&lt;script&gt;
+        class Person {
+            constructor(name, age) {
+                this.name = name
+                this.age = age
+            }
+            grade = '高一'
+        }
+        const p1 = new Person('jjj', 20)
+        console.log(p1); //Person {grade: '高一', name: 'jjj', age: 20}
+    &lt;/script&gt;</code></pre>
+
+<ul>
+<li>所以constructor中的state可以采用直接赋值的方式</li>
+<li>同理changeWeather也可以采用直接直接赋值的方式，把他放到weather实例上</li>
+<li>但要使用箭头函数，因为普通函数this严格模式下为undefined、箭头函数this为上层作用域的this也就是weath实例</li>
+<li>所以简写后</li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">&lt;script type="text/babel"&gt;
+        //1.创建组件
+        class Weather extends React.Component {
+            //简化不使用constructor
+            //我们为了修改state的初始状态才被动的去使用constructor
+            //类中 我们可以使用直接赋值的方式去添加属性 如 a = 1 
+            //constructor可以省略了
+            // constructor(props) {
+            //     super(props)
+            // }
+            
+            //所以这里可以直接state
+            state = { isHot: true, wind: '微风' }
+            render() {
+                const { isHot, wind } = this.state
+                return &lt;h1 onClick={this.changeWeather}&gt;今天天气很{isHot ? '炎热' : '凉爽'},{wind}&lt;/h1&gt;
+            }
+            //这里也可以采用直接赋值的方式把方法放到实例本身
+            //注意使用箭头函数 this查找到上层作用域也就是weather实例
+            //普通函数this为undefined
+            changeWeather = () =&gt; {
+                const isHot = this.state.isHot
+                this.setState({ isHot: !isHot })
+            }
+        }
+        //渲染组件到页面
+        ReactDOM.render(&lt;Weather /&gt;, document.getElementById('test'))
+    &lt;/script&gt;</code></pre>
+
+<h1 id="二、组件三大属性-props"><a href="#二、组件三大属性-props" class="headerlink" title="二、组件三大属性-props"></a>二、组件三大属性-props</h1><h2 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h2><ol>
+<li>每个组件对象都会有props(properties的简写)属性</li>
+<li>组件标签的所有属性都保存在props中</li>
+</ol>
+<h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ol>
+<li>通过标签属性从组件外向组件内传递变化的数据</li>
+<li>注意:组件内部不要修改props数据</li>
+</ol>
+<pre class="language-react" data-language="react"><code class="language-react">&lt;script type="text/babel"&gt;
+        //创建类式组件
+        class Person extends React.Component {
+            render() {
+                const {name,age,sex} = this.props
+                return (
+                    &lt;ul&gt;
+                        &lt;li&gt;姓名：{name}&lt;/li&gt;
+                        &lt;li&gt;性别：{sex}&lt;/li&gt;
+                        &lt;li&gt;年龄：{age}&lt;/li&gt;
+                    &lt;/ul&gt;
+                )
+            }
+        }
+        //渲染组件到页面
+        ReactDOM.render(&lt;Person name="xy" age = "18" sex = "男"/&gt;, document.getElementById('test'))
+    &lt;/script&gt;</code></pre>
+
+<p><img src="http://cdn.michstabe.cn/blog/211104/aCBIfbJ5eK.png?imageslim" alt="props使用"></p>
+<h2 id="扩展运算符的复习"><a href="#扩展运算符的复习" class="headerlink" title="扩展运算符的复习"></a>扩展运算符的复习</h2><pre class="language-js" data-language="js"><code class="language-js"><span class="token operator">&lt;</span>body<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>script<span class="token operator">&gt;</span>
+        <span class="token keyword">let</span> arr1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span>
+        <span class="token keyword">let</span> arr2 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">]</span>
+
+        <span class="token comment">//1.展开一个数组</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">...</span>arr1<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//1 2 3 4</span>
+
+        <span class="token comment">//2.合并一个数组</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">...</span>arr1<span class="token punctuation">,</span> <span class="token operator">...</span>arr2<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//[1,2,3,4,5,6,7,8]</span>
+
+        <span class="token comment">//3.在函数中使用</span>
+        <span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>nums</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> nums<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">preValue<span class="token punctuation">,</span> currentValue</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> preValue <span class="token operator">+</span> currentValue
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//10</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//3</span>
+
+        <span class="token comment">//4.构造字面量对象时使用展开语法</span>
+        <span class="token keyword">let</span> person <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'Tom'</span><span class="token punctuation">,</span> age<span class="token operator">:</span> <span class="token number">20</span> <span class="token punctuation">}</span>
+        <span class="token keyword">let</span> person2 <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token operator">...</span>person <span class="token punctuation">}</span>
+        person<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'Jack'</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>person2<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//{name: 'Tom', age: 20}</span>
+
+        <span class="token comment">//错误写法，展开运算符不能展开对象</span>
+        <span class="token comment">// console.log(...person);</span>
+
+        <span class="token comment">//5.合并</span>
+        <span class="token keyword">let</span> person3 <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token operator">...</span>person<span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Rose'</span><span class="token punctuation">,</span> address<span class="token operator">:</span> <span class="token string">"China"</span> <span class="token punctuation">}</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>person3<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//{name: 'Rose', age: 20, address: 'China'}</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>body<span class="token operator">&gt;</span></code></pre>
+
+<h2 id="批量传递props"><a href="#批量传递props" class="headerlink" title="批量传递props"></a>批量传递props</h2><pre class="language-react" data-language="react"><code class="language-react">&lt;script type="text/babel"&gt;
+        //创建类式组件
+        class Person extends React.Component {
+            render() {
+                const { name, age, sex } = this.props
+                return (
+                    &lt;ul&gt;
+                        &lt;li&gt;姓名：{name}&lt;/li&gt;
+                        &lt;li&gt;性别：{sex}&lt;/li&gt;
+                        &lt;li&gt;年龄：{age}&lt;/li&gt;
+                    &lt;/ul&gt;
+                )
+            }
+        }
+        const p = { name: 'Jack', age: 20, sex: '男' }
+        //渲染组件到页面
+        ReactDOM.render(&lt;Person {...p} /&gt;, document.getElementById('test'))
+    &lt;/script&gt;</code></pre>
+
+<p>注意{…p} 与js中的{}含义不一样，js中是构造对象的固定写法，react中的{}是放在标签中的写法</p>
+<p>而且这种写法只能用于标签写法中ReactDOM.render(&lt;Person {…p} /&gt;, document.getElementById(‘test’))</p>
+<h2 id="对props进行限制"><a href="#对props进行限制" class="headerlink" title="对props进行限制"></a>对props进行限制</h2><p>如果想把页面上的age都+1，但是原来数据不改变，可以这样</p>
+<pre class="language-react" data-language="react"><code class="language-react">&lt;li&gt;年龄：{age + 1}&lt;/li&gt;</code></pre>
+
+<p>但是如果我们传递的age如果是字符串属性，那么就是字符串拼接而不是相加了</p>
+<p>也可以这样写</p>
+<pre class="language-html" data-language="html"><code class="language-html">ReactDOM.render(<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Person</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Tom<span class="token punctuation">"</span></span> <span class="token attr-name">age</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span>{20}</span> <span class="token attr-name">sex</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>女<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>, document.getElementById('test'))</code></pre>
+
+<p>这样可以正常的age+1，但是别人在复用我们写的组件时，不知道age+1的需求呢？他还是写成age=”20”这种形式呢？</p>
+<p>另外，如果我们不对sex进行赋值，那页面就会不会显示，交互不是很好，所以我们需要写一个默认值，同理age也是如此</p>
+<p>name属性是必须的，不能不进行赋值</p>
+<p>所以我们需要用<strong>官方的方法对props进行限制</strong></p>
+<p>在react15.5版本及以下我们可以这样写：</p>
+<pre class="language-react" data-language="react"><code class="language-react">Person.propTypes = {
+	name:React.PropTypes.属性
+}</code></pre>
+
+<p>但是在react15.5版本以后，移除了这种方法，取而代之的是要引入prop-types.js文件</p>
+<p>写法也发生改变</p>
+<pre class="language-react" data-language="react"><code class="language-react">&lt;!-- 引入prop-types文件，对props进行限制 --&gt;
+&lt;script src="../js/prop-types.js"&gt;&lt;/script&gt;
+
+	    //对标签属性进行类型，必要性的限制
+        Person.propTypes = {
+            name: PropTypes.string.isRequired,
+            age: PropTypes.number,
+            sex: PropTypes.string,
+            speak:PropTypes.func //限制speak为函数，注意写法
+        }
+
+        //指定默认标签属性值
+        Person.defaultProps = {
+            sex: '不男不女',
+            age: 18
+        }
+
+        function speak() {
+            console.log('说话');
+        }
+
+        const p = { name: 'jack', sex: '男', age: 19 }
+        //渲染组件到页面
+        ReactDOM.render(&lt;Person {...p} /&gt;, document.getElementById('test1'))
+        ReactDOM.render(&lt;Person name="Tom" age={20} sex="女" speak={speak}/&gt;, document.getElementById('test2'))</code></pre>
+
+<h2 id="props简写"><a href="#props简写" class="headerlink" title="props简写"></a>props简写</h2><p>类中static修饰符的使用</p>
+<p>如果直接采用赋值，是给类的实例添加属性</p>
+<p>如果使用static进行修饰，就是给类添加属性</p>
+<p><strong>类（class）通过 static 关键字定义静态方法。不能在类的实例上调用静态方法，而应该通过类本身调用</strong></p>
+<pre class="language-react" data-language="react"><code class="language-react">&lt;script type="text/babel"&gt;
+        //创建类式组件
+        class Person extends React.Component {
+            render() {
+                const { name, age, sex } = this.props
+                return (
+                    &lt;ul&gt;
+                        &lt;li&gt;姓名：{name}&lt;/li&gt;
+                        &lt;li&gt;性别：{sex}&lt;/li&gt;
+                        &lt;li&gt;年龄：{age}&lt;/li&gt;
+                    &lt;/ul&gt;
+                )
+            }
+            //如果再类里直接给里添加属性，不是给实例，那么需要用static修饰
+            static propTypes = {
+                name: PropTypes.string.isRequired,
+                age: PropTypes.number,
+                sex: PropTypes.string,
+                speak: PropTypes.func //限制speak为函数，注意写法func
+            }
+            static defaultProps = {
+                sex: '不男不女',
+                age: 18
+            }
+        }
+        function speak() {
+            console.log('说话');
+        }
+        const p = { name: 'jack', sex: '男', age: 19 }
+        //渲染组件到页面
+        ReactDOM.render(&lt;Person {...p} /&gt;, document.getElementById('test1'))
+        ReactDOM.render(&lt;Person name="Tom" age={20} sex="女" speak={speak} /&gt;, document.getElementById('test2'))
+    &lt;/script&gt;</code></pre>
+
+<h2 id="类中的构造器与props"><a href="#类中的构造器与props" class="headerlink" title="类中的构造器与props"></a>类中的构造器与props</h2><p>类中的构造函数一定要写吗？根据官方文档，使用构造器可以做两件事</p>
+<p>1.初始化state</p>
+<pre class="language-react" data-language="react"><code class="language-react">this.state = { isHot: true, wind: '微风' }</code></pre>
+
+<p>2.为事件监听函数绑定实例</p>
+<pre class="language-react" data-language="react"><code class="language-react">this.changeWeather = this.changeWeather.bind(this)</code></pre>
+
+<p>但是这两种我们都有简写方式而不用使用constructor</p>
+<p>所以constructor可写可不写</p>
+<p>但是如果使用constructor，一定要进行props的传递与接收</p>
+<pre class="language-react" data-language="react"><code class="language-react">constructor(props) {
+	super(props)
+	console(this.props)
+}</code></pre>
+
+<p>如果不接受，会造成构造器中实例this为undefined（参考官方文档）</p>
+<p><strong>一句话概括：构造器使用的话，是否接收传递props，取决于：是否希望在构造器中通过this访问props</strong></p>
+<h2 id="函数式组件使用props"><a href="#函数式组件使用props" class="headerlink" title="函数式组件使用props"></a>函数式组件使用props</h2><p>因为函数可以传参</p>
+<pre class="language-react" data-language="react"><code class="language-react">&lt;script type="text/babel"&gt;
+        //创建函数式组件
+        function Person(props) {
+            const { name, sex, age } = props
+            return (
+                &lt;ul&gt;
+                    &lt;li&gt;姓名：{name}&lt;/li&gt;
+                    &lt;li&gt;性别：{sex}&lt;/li&gt;
+                    &lt;li&gt;年龄：{age}&lt;/li&gt;
+                &lt;/ul&gt;
+            )
+        }
+        //对标签属性进行类型，必要性的限制
+        Person.propTypes = {
+            name: PropTypes.string.isRequired,
+            age: PropTypes.number,
+            sex: PropTypes.string,
+            speak: PropTypes.func //限制speak为函数，注意写法
+        }
+        //指定默认标签属性值
+        Person.defaultProps = {
+            sex: '不男不女',
+            age: 18
+        }
+        //渲染组件到页面
+        ReactDOM.render(&lt;Person name="Tom" age={20} /&gt;, document.getElementById('test2'))
+    &lt;/script&gt;</code></pre>
+
+<h1 id="三、组件三大属性-refs"><a href="#三、组件三大属性-refs" class="headerlink" title="三、组件三大属性-refs"></a>三、组件三大属性-refs</h1><h2 id="理解-1"><a href="#理解-1" class="headerlink" title="理解"></a>理解</h2><p>组件内的标签可以定义ref属性来标识自己</p>
+<h2 id="应用（字符串形式的ref）"><a href="#应用（字符串形式的ref）" class="headerlink" title="应用（字符串形式的ref）"></a>应用（字符串形式的ref）</h2><p>自定义组件，功能：</p>
+<ul>
+<li><p>点击按钮，提示第一个输入框的值</p>
+</li>
+<li><p>当第二个输入框失去焦点时，提示输入框的值</p>
+</li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">&lt;script type="text/babel"&gt;
+        //创建类式组件
+        class Person extends React.Component {
+            showData1=() =&gt; {
+            	console.log(this.refs) //{input1: input, input2: input} 自定义value值:标签节点
+                const {input1} = this.refs
+                alert(input1.value)
+            }
+            showData2 =() =&gt; {
+                const {input2} = this.refs
+                alert(input2.value)
+            }
+            render() {
+                return (
+                    &lt;div&gt;
+                        &lt;input ref="input1" type="text" placeholder="点击按钮提示数据" /&gt;&amp;nbsp;
+                        &lt;button onClick={this.showData1}&gt;点击提示左侧数据&lt;/button&gt;&amp;nbsp;
+                        &lt;input onBlur={this.showData2} ref="input2" type="text" placeholder="失去焦点提示数据" /&gt;
+                    &lt;/div&gt;
+                )
+            }
+        }
+        //渲染组件到页面
+        ReactDOM.render(&lt;Person /&gt;, document.getElementById('test'))
+    &lt;/script&gt;</code></pre>
+
+<p><strong>注意：这是字符串形式的ref，已经不再推荐使用（效率不高）。</strong></p>
+<h2 id="回调形式的ref"><a href="#回调形式的ref" class="headerlink" title="回调形式的ref"></a>回调形式的ref</h2><pre class="language-react" data-language="react"><code class="language-react">&lt;script type="text/babel"&gt;
+        //创建类式组件
+        class Person extends React.Component {
+            showData1 = () =&gt; {
+                console.log(this.refs); //{input1: input, input2: input}
+                const { input1 } = this
+                alert(input1.value)
+            }
+            showData2 = () =&gt; {
+                const { input2 } = this
+                alert(input2.value)
+            }
+            render() {
+                return (
+                    &lt;div&gt;
+                        &lt;input ref={(currentNode) =&gt; { this.input1 = currentNode }} type="text" placeholder="点击按钮提示数据" /&gt;&amp;nbsp;
+                        &lt;button onClick={this.showData1}&gt;点击提示左侧数据&lt;/button&gt;&amp;nbsp;
+                        &lt;input ref={(currentNode) =&gt; { this.input2 = currentNode }} onBlur={this.showData2} type="text" placeholder="失去焦点提示数据" /&gt;
+                    &lt;/div&gt;
+                )
+            }
+        }
+        //渲染组件到页面
+        ReactDOM.render(&lt;Person /&gt;, document.getElementById('test'))
+
+
+    &lt;/script&gt;</code></pre>
+
+<p>回调函数的参数是ref所在的标签节点，只有ref标记的react才会去调用</p>
+<pre class="language-react" data-language="react"><code class="language-react">//利用箭头函数特性进行简写
+&lt;input ref={c =&gt; this.input1 = c} type="text" placeholder="点击按钮提示数据" /&gt;&amp;nbsp;
+//这样的不会调用
+&lt;input hahahah={() =&gt; { console.log(1); }} type="text" placeholder="点击按钮提示数据" /&gt;&amp;nbsp;</code></pre>
+
+<p><img src="http://cdn.michstabe.cn/blog/211104/8cG38L5lel.png?imageslim"></p>
+<p>回调形式ref的执行次数问题</p>
+<p>内联的回调，渲染时调用一次，但是更新时会调用两次，看代码</p>
+<pre class="language-react" data-language="react"><code class="language-react">&lt;script type="text/babel"&gt;
+        //创建类式组件
+        class Person extends React.Component {
+            state = { isHot: true }
+            changeWeather = () =&gt; {
+                const { isHot } = this.state
+                this.setState({ isHot: !isHot })
+
+            }
+            showData = () =&gt; {
+                const { input1 } = this
+                alert(input1.value)
+            }
+            render() {
+                return (
+                    &lt;div&gt;
+                        &lt;h2&gt;天气{this.state.isHot ? '炎热' : '凉爽'}&lt;/h2&gt;
+                        &lt;input ref={c =&gt; { this.input1 = c, console.log(c) }} type="text" placeholder="点击按钮提示数据" /&gt;&amp;nbsp;
+                        &lt;button onClick={this.showData}&gt;点击提示数据&lt;/button&gt;
+                        &lt;button onClick={this.changeWeather}&gt;更新来看回调ref调用几次&lt;/button&gt;
+                    &lt;/div&gt;
+                )
+            }
+        }
+        //渲染组件到页面
+        ReactDOM.render(&lt;Person /&gt;, document.getElementById('test'))
+    &lt;/script&gt;</code></pre>
+
+<p>当我没进行更新时，只会调用一次。</p>
+<p><img src="http://cdn.michstabe.cn/blog/211104/i2kmaB940H.png?imageslim"></p>
+<p>此时我点击按钮进行更新页面：</p>
+<p><img src="http://cdn.michstabe.cn/blog/211104/CAEj7244K2.png?imageslim"></p>
+<p>可以看到，更新时调用了两次。</p>
+<p><img src="http://cdn.michstabe.cn/blog/211104/dJaAI1B042.png?imageslim" alt="mark"></p>
+<p>如何解决？进行类绑定的回调</p>
+<pre class="language-react" data-language="react"><code class="language-react">saveInput = (c) =&gt; {
+                this.input1 = c
+                console.log(c);
+            }
+{/*进行类绑定类解决 注意：这是jsx语法注释写法{/**/}*/}
+&lt;input ref={this.saveInput} type="text" placeholder="点击按钮提示数据" /&gt;&amp;nbsp;</code></pre>
+
+<p>不过影响不大，日常开发基本都用<strong>内联</strong>，方便一点</p>
+<h2 id="React-createRef"><a href="#React-createRef" class="headerlink" title="React.createRef()"></a>React.createRef()</h2><pre class="language-react" data-language="react"><code class="language-react">// React.createRef调用后可以返回一个容器
+// 该容器可以存储被ref所标识的节点,该容器是“专人专用”的
+myRef = React.createRef() 
+&lt;input ref={this.myRef}/&gt;
+</code></pre>
+
+<pre class="language-react" data-language="react"><code class="language-react">&lt;script type="text/babel"&gt;
+        //创建类式组件
+        class Person extends React.Component {
+            myRef = React.createRef()
+            showData = () =&gt; {
+                console.log(this.myRef);
+            }   
+            render() {
+                return (
+                    &lt;div&gt;
+                        &lt;input ref={this.myRef} type="text" placeholder="点击按钮提示数据" /&gt;&amp;nbsp;
+                        &lt;button onClick={this.showData}&gt;点击提示数据&lt;/button&gt;
+                    &lt;/div&gt;
+                )
+            }
+        }
+        //渲染组件到页面
+        ReactDOM.render(&lt;Person /&gt;, document.getElementById('test'))
+    &lt;/script&gt;</code></pre>
+
+<p><img src="http://cdn.michstabe.cn/blog/211104/915A5a2e0C.png?imageslim" alt="mark"></p>
+<p>如何取值？</p>
+<pre class="language-react" data-language="react"><code class="language-react">showData = () =&gt; {
+                console.log(this.myRef.current.value);
+            } </code></pre>
+
+<p>注意：</p>
+<ul>
+<li>current的写法是固定的不能改</li>
+<li>React.createRef调用后可以返回一个容器，该容器可以存储被ref所标识的节点,该容器是“<strong>专人专用</strong>”的</li>
+<li>如果想要多次使用，需要多次创建</li>
+<li>如果多次使用只创建一个，后面的会覆盖之前的</li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">myRef1 = React.createRef()
+myRef2 = React.createRef()
+&lt;input ref={this.myRef2} type="text" placeholder="点击按钮提示数据" /&gt;&amp;nbsp;
+&lt;input ref={this.myRef2} type="text" placeholder="点击按钮提示数据" /&gt;&amp;nbsp;</code></pre>
+
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">MichstaBe-XY</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://ulrica-ch.github.io/posts/2690547572/">https://ulrica-ch.github.io/posts/2690547572/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">MichstaBe-XY</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/React/">
+                                    <span class="chip bg-color">React</span>
+                                </a>
+                            
+                                <a href="/tags/state/">
+                                    <span class="chip bg-color">state</span>
+                                </a>
+                            
+                                <a href="/tags/props/">
+                                    <span class="chip bg-color">props</span>
+                                </a>
+                            
+                                <a href="/tags/refs/">
+                                    <span class="chip bg-color">refs</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'baPwGXa2IUzmtvSuQn1I4WT7-gzGzoHsz',
+        appKey: 'MNnOEMRv9FirEbhOGxroPx1b',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/posts/602367782/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="关于我及个人博客">
+                        
+                        <span class="card-title">关于我及个人博客</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-04
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/" class="post-category">
+                                    一些总结
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/">
+                        <span class="chip bg-color">自我介绍</span>
+                    </a>
+                    
+                    <a href="/tags/Hexo/">
+                        <span class="chip bg-color">Hexo</span>
+                    </a>
+                    
+                    <a href="/tags/Github-Pages/">
+                        <span class="chip bg-color">Github Pages</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/posts/1165538290/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="二、React模块化与组件化">
+                        
+                        <span class="card-title">二、React模块化与组件化</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/React/" class="post-category">
+                                    React
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/React/">
+                        <span class="chip bg-color">React</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96/">
+                        <span class="chip bg-color">组件化</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021</span>
+            
+            <a href="/about" target="_blank">MichstaBe-XY</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">104.2k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Ulrica-CH" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:210871791@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=210871791" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 210871791" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

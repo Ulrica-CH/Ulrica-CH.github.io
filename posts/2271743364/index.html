@@ -1,0 +1,2311 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="模块化">
+    <meta name="description" content="# 一、JavaScript模块化
+
+什么是模块化
+模块化开发最终的目的是将程序划分成一个个小的结构； 
+这个结构中编写属于自己的逻辑代码，有自己的作用域，不会影响到其他的结构；
+这个结构可以将自己希望暴露的变量、函数、对象等导出给其结构使">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>二、Node及JavaScript的模块化 | MichstaBe</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">MichstaBe</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/todolist" class="waves-effect waves-light">
+      
+      <i class="fas" style="zoom: 0.6;"></i>
+      
+      <span>todolist</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">MichstaBe</div>
+        <div class="logo-desc">
+            
+            心中有梦，眼里有光，铭记过去，拥抱未来
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/todolist" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas"></i>
+			
+			todolist
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">二、Node及JavaScript的模块化</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/CommobJS/">
+                                <span class="chip bg-color">CommobJS</span>
+                            </a>
+                        
+                            <a href="/tags/AMD/">
+                                <span class="chip bg-color">AMD</span>
+                            </a>
+                        
+                            <a href="/tags/CMD/">
+                                <span class="chip bg-color">CMD</span>
+                            </a>
+                        
+                            <a href="/tags/ES6-Module/">
+                                <span class="chip bg-color">ES6 Module</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%A8%A1%E5%9D%97%E5%8C%96/">
+                                <span class="chip bg-color">模块化</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Node/" class="post-category">
+                                Node
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-11-11
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2021-12-10
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6.3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    25 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                # 一、JavaScript模块化
+
+<h2 id="什么是模块化"><a href="#什么是模块化" class="headerlink" title="什么是模块化"></a>什么是模块化</h2><ul>
+<li>模块化开发最终的目的是<strong>将程序划分成一个个小的结构</strong>； </li>
+<li>这个结构中编写属于自己的逻辑代码，有自己的作用域，<strong>不会影响到其他的结构</strong>；</li>
+<li>这个结构可以将自己希望暴露的变量、函数、对象等导出给其结构使用；</li>
+<li>也可以通过某种方式，导入另外结构中的变量、函数、对象等；</li>
+</ul>
+<p><strong>上面说提到的结构，就是模块；按照这种结构划分开发程序的过程，就是模块化开发的过程</strong></p>
+<h2 id="早期的JavaScript"><a href="#早期的JavaScript" class="headerlink" title="早期的JavaScript"></a>早期的JavaScript</h2><p>在网页开发的早期，<em>Brendan Eich</em>开发JavaScript仅仅作为一种脚本语言，做一些简单的表单验证或动画实现等，那个时候代码还是很少的：</p>
+<ul>
+<li>这个时候我们只需要讲JavaScript代码写到script标签中即可；</li>
+<li>并没有必要放到多个文件中来编写；甚至流行：通常来说 JavaScript 程序的长度只有一行。 </li>
+</ul>
+<p>但是随着前端和JavaScript的快速发展，JavaScript代码变得越来越复杂了：</p>
+<ul>
+<li>ajax的出现，前后端开发分离，意味着后端返回数据后，我们需要通过JavaScript进行前端页面的渲染； </li>
+<li>SPA的出现，前端页面变得更加复杂：包括前端路由、状态管理等等一系列复杂的需求需要通过JavaScript来实现；</li>
+<li>包括Node的实现，JavaScript编写复杂的后端程序，没有模块化是致命的硬伤； </li>
+</ul>
+<p>所以，模块化已经是JavaScript一个非常迫切的需求： </p>
+<ul>
+<li>但是JavaScript本身，直到ES6（2015）才推出了自己的模块化方案； </li>
+<li>在此之前，为了让JavaScript支持模块化，涌现出了很多不同的模块化规范：AMD、CMD、CommonJS等；</li>
+<li>在我们的课程中，我将详细讲解JavaScript的模块化，尤其是<strong>CommonJS和ES6的模块化</strong>。</li>
+</ul>
+<h2 id="没有模块化带来很多的问题"><a href="#没有模块化带来很多的问题" class="headerlink" title="没有模块化带来很多的问题"></a>没有模块化带来很多的问题</h2><h3 id="命名冲突"><a href="#命名冲突" class="headerlink" title="命名冲突"></a>命名冲突</h3><p>show me bug</p>
+<p>新建三个文件：</p>
+<p>bar.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">//小明编写的文件
+var name = '小明'
+console.log(name);</code></pre>
+
+<p>foo.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">//小丽编写的文件
+var name = '小丽'
+console.log(name);</code></pre>
+
+<p>baz.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">//小明编写的文件
+console.log(name);</code></pre>
+
+<p>小明想在baz.js文件中打印自己定义的name，但是小丽的文件是后引入的会覆盖小明定义的name。这就是命名冲突</p>
+<p>index.html</p>
+<pre class="language-html" data-language="html"><code class="language-html"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">http-equiv</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>X-UA-Compatible<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>IE=edge<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Document<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>./bar.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>./foo.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>./baz.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span></code></pre>
+
+<p>打印台输出：</p>
+<p>小明</p>
+<p>小丽</p>
+<p>小丽</p>
+<h3 id="怎么解决？-—-IIFE（立即执行函数）"><a href="#怎么解决？-—-IIFE（立即执行函数）" class="headerlink" title="怎么解决？ — IIFE（立即执行函数）"></a>怎么解决？ — IIFE（立即执行函数）</h3><p>bar.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">//小明编写的文件
+let ModuleBar = (function() {
+    var name = '小明'
+    var age = 20
+
+    return{
+        name,age
+    }
+})()</code></pre>
+
+<p>foo.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">//小丽编写的文件
+let ModuleFoo = (function() {
+    var name = '小丽'
+    var age = 21
+
+    return {
+        name,age
+    }
+})()</code></pre>
+
+<p>baz.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">//小明编写的文件
+console.log(ModuleBar.name,ModuleBar.age); //小明 20</code></pre>
+
+<p>原理：函数有自己的单独作用域。</p>
+<p>记得要return，不然拿不到相关属性值。</p>
+<h3 id="IIFE的缺点"><a href="#IIFE的缺点" class="headerlink" title="IIFE的缺点"></a>IIFE的缺点</h3><ul>
+<li>必须记得<strong>每一个模块中返回对象的命名</strong>（ModuleFoo,ModuleBar），才能在其他模块使用过程中正确的使用；</li>
+<li>代码写起来混乱不堪，每个文件中的代码<strong>都需要包裹在一个匿名函数中</strong>来编写； </li>
+<li>在没有合适的规范情况下，每个人、每个公司都<strong>可能会任意命名、甚至出现模块名称相同</strong>的情况；</li>
+</ul>
+<p><strong>所以，我们会发现，虽然实现了模块化，但是我们的实现过于简单，并且是没有规范的。</strong></p>
+<ul>
+<li>我们需要制定一定的规范来约束每个人都<strong>按照这个规范去编写模块化的代码</strong>； </li>
+<li>这个规范中应该包括核心功能：<strong>模块本身可以导出暴露的属性，模块又可以导入自己需要的属性</strong>； </li>
+<li>JavaScript社区为了解决上面的问题，涌现出一系列好用的规范，接下来我们就学习具有代表性的一些规范</li>
+</ul>
+<h1 id="二、Common-js与Node"><a href="#二、Common-js与Node" class="headerlink" title="二、Common.js与Node"></a>二、Common.js与Node</h1><p>Common.js<strong>是一个规范</strong>，最初提出来是在浏览器以外的地方使用，并且当时被命名为ServerJS，后来为了体现广泛性，修改为CommonJS，简称CJS。</p>
+<ul>
+<li><strong>Node是CommonJS在服务器端一个具有代表性的实现</strong>；</li>
+<li>Browserify是CommonJS在浏览器中的一种实现；</li>
+<li>webpack打包工具具备对CommonJS的支持和转换； </li>
+</ul>
+<p>所以，Node中对CommonJS进行了支持和实现，让我们在开发node的过程中可以方便的进行模块化开发：</p>
+<ul>
+<li><strong>在Node中每一个js文件都是一个单独的模块</strong>； </li>
+<li>这个模块中包括CommonJS规范的核心变量：exports、module.exports、require； </li>
+<li>我们可以使用这些变量来方便的进行模块化开发； </li>
+</ul>
+<p>前面我们提到过模块化的核心是导出和导入，Node中对其进行了实现：</p>
+<ul>
+<li><strong>exports和module.exports可以负责对模块中的内容进行导出；</strong> </li>
+<li><strong>require函数可以帮助我们导入其他模块（自定义模块、系统模块、第三方库模块）中的内容；</strong></li>
+</ul>
+<h2 id="案例入手"><a href="#案例入手" class="headerlink" title="案例入手"></a>案例入手</h2><p>新建两个文件</p>
+<p>main.js:程序执行入口文件，进行导入</p>
+<pre class="language-html" data-language="html"><code class="language-html">//在Node中，每个js文件就是一个模块
+console.log(name);</code></pre>
+
+<p>bar.js：负责导出自己的内容</p>
+<pre class="language-html" data-language="html"><code class="language-html">//在Node中，每个js文件就是一个模块
+let name = 'XY'
+let age = 20
+let message = 'My name is XY'
+
+function say(name) {
+    console.log('Hello' + name);
+}</code></pre>
+
+<p> 此时我去执行node main.js肯定是不可以的，因为我没有进行导入导出</p>
+<p>（因为图片引入总是报错，所以尽量不引入图片说明问题）</p>
+<p>node main.js的结果：</p>
+<pre class="language-html" data-language="html"><code class="language-html">ReferenceError: name is not defined
+    at Object.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>anonymous</span><span class="token punctuation">&gt;</span></span> (E:\project\vs  project\Node学习\03-JavaScript-Module\02-Common.js\main.js:2:13)
+    at Module._compile (internal/modules/cjs/loader.js:1015:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1035:10)
+    at Module.load (internal/modules/cjs/loader.js:879:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:60:12)
+    at internal/main/run_main_module.js:17:47</code></pre>
+
+<p>这时候就需要<strong>exports、require</strong>(module.exports下面会说)</p>
+<p>首先要在bar.js文件中进行导出</p>
+<pre class="language-html" data-language="html"><code class="language-html">exports.name = name
+exports.age = age
+exports.say = say
+
+//导出的属性名可以自定义
+// exports.myname = name</code></pre>
+
+<p>在main.js使用require引入：</p>
+<pre class="language-html" data-language="html"><code class="language-html">//在Node中，每个js文件就是一个模块
+const bar = require('./bar.js')
+console.log(bar.name);
+console.log(bar.age);
+bar.say('jack')</code></pre>
+
+<p>node main.js:</p>
+<pre class="language-html" data-language="html"><code class="language-html">XY
+20
+Hellojack</code></pre>
+
+<p>这就是导入导出。</p>
+<p>但是exports、require的原理？</p>
+<p>实际上，exports是一个对象，我们可以在这个对象中添加多个属性，添加的属性会导出：</p>
+<pre class="language-html" data-language="html"><code class="language-html">exports.name = name
+exports.age = age
+exports.say = say
+//name age say 就是exports对象上的属性</code></pre>
+
+<pre class="language-html" data-language="html"><code class="language-html">exports.name = name
+exports.age = age
+exports.say = say
+console.log(exports);</code></pre>
+
+<pre class="language-html" data-language="html"><code class="language-html">E:\project\vs  project\Node学习\03-JavaScript-Module\02-Common.js&gt;node bar.js
+{ name: 'XY', age: 20, say: [Function: say] }</code></pre>
+
+<p>那require呢？</p>
+<ul>
+<li><strong>main中的bar变量等于exports对象；</strong></li>
+<li>也就是require通过各种查找方式，最终找到了exports这个对象；</li>
+<li>并且将这个exports对象赋值给了bar变量；</li>
+<li>bar变量就是exports对象了；</li>
+</ul>
+<pre class="language-html" data-language="html"><code class="language-html">const bar = require('./bar.js')
+console.log(bar);
+
+E:\project\vs  project\Node学习\03-JavaScript-Module\02-Common.js&gt;node main.js
+{ name: 'XY', age: 20, say: [Function: say] }</code></pre>
+
+<p>可以看到，打印结果和exports是一样的</p>
+<p>这里涉及到一个知识点</p>
+<h2 id="对象的引用赋值"><a href="#对象的引用赋值" class="headerlink" title="对象的引用赋值"></a>对象的引用赋值</h2><pre class="language-html" data-language="html"><code class="language-html">let obj ={name:'kobe',age:18}
+let info = obj</code></pre>
+
+<p>let info = obj 内部发生了什么？</p>
+<p>首先obj是个对象类型，存储在堆当中，栈中保存着堆的地址（老八股文了）</p>
+<p>在赋值给info时，只是把地址赋给了info，这样obj，info都指向了同一个内存地址，其中一个修改属性值时，另一个也会变化。</p>
+<p><img src="http://cdn.michstabe.cn/blog/211110/9FG7m1D6b6.png?imageslim"></p>
+<pre class="language-html" data-language="html"><code class="language-html">info.name = 'XY'
+console.log(obj.name) //XY</code></pre>
+
+<p>同理exports，require也是这样</p>
+<p><img src="http://cdn.michstabe.cn/blog/211110/f88iG36823.png?imageslim"></p>
+<p><strong>所以，bar对象是exports对象的浅拷贝（引用赋值）</strong></p>
+<p><strong>浅拷贝的本质就是一种引用的赋值而已</strong></p>
+<p><img src="http://cdn.michstabe.cn/blog/211110/mbD3hE6Ail.png?imageslim"></p>
+<p>这回懂了吧</p>
+<h2 id="module-exports"><a href="#module-exports" class="headerlink" title="module.exports"></a>module.exports</h2><ul>
+<li>Node中我们经常导出东西的时候，又是通过module.exports导出的</li>
+<li>module.exports和exports有什么关系或者区别呢？</li>
+</ul>
+<p>通过维基百科中对CommonJS规范的解析：</p>
+<ul>
+<li><strong>CommonJS中是没有module.exports的概念的；</strong></li>
+<li>为了实现模块的导出，Node中使用的是Module的类，<strong>每一个模块都是Module的一个实例，也就是module</strong></li>
+<li><strong>所以在Node中真正用于导出的其实根本不是exports，而是module.exports；</strong> </li>
+<li><strong>因为module才是导出的真正实现者</strong></li>
+</ul>
+<p>但是，为什么exports也可以导出呢？</p>
+<ul>
+<li>这是因为module对象的exports属性是exports对象的一个引用</li>
+<li>也就是说 <strong>module.exports = exports = main中的bar</strong></li>
+</ul>
+<p>三者指向同一地址。</p>
+<p><img src="http://cdn.michstabe.cn/blog/211110/kfKkH4fDBc.png?imageslim"></p>
+<p>node底层导出实际是以module.exports为基准的，不是exports</p>
+<p>来看：</p>
+<pre class="language-html" data-language="html"><code class="language-html">//在Node中，每个js文件就是一个模块
+let name = 'XY';
+let age = 20;
+let message = 'My name is XY';
+
+function say(name) {
+  console.log('Hello' + name);
+}
+//导出的属性名可以自定义
+// exports.myname = name
+exports.name = name;
+exports.age = age;
+exports.say = say;
+
+module.exports = {
+  name: 'aaa',
+  age: 20,
+};
+</code></pre>
+
+<pre class="language-html" data-language="html"><code class="language-html">E:\project\vs  project\Node学习\03-JavaScript-Module\02-Common.js&gt;node main.js
+aaa
+20</code></pre>
+
+<p><strong>可以看到，拿到的是module.exports导出的东西。底层是以module.exports为基准.</strong></p>
+<p>关于对象引用的引申：</p>
+<p>bar.js:</p>
+<pre class="language-html" data-language="html"><code class="language-html">//在Node中，每个js文件就是一个模块
+let name = 'XY';
+let age = 20;
+
+function say(name) {
+  console.log('Hello' + name);
+}
+setTimeout(() =&gt; {
+    name = '111'
+},1000)
+
+module.exports = {
+  name: name,
+  age: age,
+};</code></pre>
+
+<p>main.js:</p>
+<pre class="language-html" data-language="html"><code class="language-html">//在Node中，每个js文件就是一个模块
+const bar = require('./bar.js')
+console.log(bar.name);
+console.log(bar.age);
+setTimeout(() =&gt; {
+    console.log(bar.name);
+},2000)</code></pre>
+
+<p>node main.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">E:\project\vs  project\Node学习\03-JavaScript-Module\02-Common.js&gt;node main.js 
+XY
+20
+XY</code></pre>
+
+<p>可以看到，延迟后打印的名字是XY</p>
+<p>为什么？</p>
+<p>再来看个例子：</p>
+<p>bar.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">//在Node中，每个js文件就是一个模块
+let info = { name: '222' };
+let age = 20;
+let message = 'My name is XY';
+
+function say(name) {
+  console.log('Hello' + name);
+}
+setTimeout(() =&gt; {
+  info.name = '111';
+}, 1000);
+module.exports = {
+  info:info,
+  age: age,
+};
+</code></pre>
+
+<p>main.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">//在Node中，每个js文件就是一个模块
+const bar = require('./bar.js')
+console.log(bar.info.name);
+console.log(bar.age);
+setTimeout(() =&gt; {
+    console.log(bar.info.name);
+},2000)</code></pre>
+
+<p>node main.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">E:\project\vs  project\Node学习\03-JavaScript-Module\02-Common.js&gt;node main.js
+222
+20
+111</code></pre>
+
+<p>可以看到延迟后名字被修改了</p>
+<p>为什么？</p>
+<p><strong>解释：</strong></p>
+<p><strong>当let name = ‘XY’;这是值类型，赋值的是完整的值，不是地址，复制后双方修改互不影响</strong></p>
+<p><strong>当let info = { name: ‘222’ };这是引用数据类型，修改数据会影响双方，所以两个结果不同。</strong></p>
+<h2 id="require"><a href="#require" class="headerlink" title="require()"></a>require()</h2><p>require是一个函数，可以帮助我们引入一个文件（模块）中导入的对象</p>
+<p>那么，require的查找规则是怎么样的呢？</p>
+<p><strong>总结：require(‘X’)</strong></p>
+<ul>
+<li>情况一：X是一个核心模块，比如path、http直接返回核心模块，并且停止查找</li>
+<li>情况二：X是以 ./ 或 ../ 或 /（根目录）开头的<ul>
+<li>第一步：将X当做一个文件在对应的目录下查找；<ul>
+<li>1.如果有后缀名，按照后缀名的格式查找对应的文件</li>
+<li>2.如果没有后缀名，会按照如下顺序：<ul>
+<li>1&gt; 直接查找文件X </li>
+<li>2&gt; 查找X.js文件</li>
+<li>3&gt; 查找X.json文件</li>
+<li>4&gt; 查找X.node文件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>第二步：没有找到对应的文件，将X作为一个目录,查找<strong>目录下面的index文件</strong><ul>
+<li>1&gt; 查找X/index.js文件</li>
+<li>2&gt; 查找X/index.json文件</li>
+<li>3&gt; 查找X/index.node文件</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>如果没有找到，那么报错：not found</p>
+<ul>
+<li>情况三：直接是一个X（没有路径），并且X不是一个核心模块</li>
+</ul>
+<pre class="language-html" data-language="html"><code class="language-html">在  /Users/coderwhy/Desktop/Node/TestCode/04_learn_node/05_javascript-module/02_commonjs/main.js 中编写
+require('why’)</code></pre>
+
+<p>查找规则：</p>
+<p><img src="http://cdn.michstabe.cn/blog/211110/DeHFaE8f7E.png?imageslim"></p>
+<p>如果上面的路径中都没有找到，那么报错：not found</p>
+<h2 id="模块加载规则"><a href="#模块加载规则" class="headerlink" title="模块加载规则"></a>模块加载规则</h2><p>1、<strong>模块在被第一次引入时，模块中的js代码会被运行一次</strong></p>
+<p>2、<strong>模块被多次引入时，会缓存，最终只加载（运行）一次</strong></p>
+<ul>
+<li>为什么只会加载运行一次呢？</li>
+<li>这是因为每个模块对象module都有一个属性：loaded。 为false表示还没有加载，为true表示已经加载； </li>
+</ul>
+<p>3、<strong>如果有循环引入，那么加载顺序是什么？</strong></p>
+<ul>
+<li>如果出现下图模块的引用关系，那么加载顺序是什么呢？</li>
+<li>这个其实是一种数据结构：图结构；</li>
+<li>图结构在遍历的过程中，有深度优先搜索（DFS, depth first search）和广度优先搜索（BFS, breadth first search）； </li>
+<li><strong>Node采用的是深度优先算法</strong>：main -&gt; aaa -&gt; ccc -&gt; ddd -&gt; eee -&gt;bbb</li>
+</ul>
+<p><img src="http://cdn.michstabe.cn/blog/211110/FL9d5Kicm8.png?imageslim"></p>
+<h2 id="CommonJS规范缺点"><a href="#CommonJS规范缺点" class="headerlink" title="CommonJS规范缺点"></a>CommonJS规范缺点</h2><p>CommonJS加载模块是<strong>同步</strong>的：</p>
+<ul>
+<li>同步的意味着只有等到对应的模块加载完毕，当前模块中的内容才能被运行；</li>
+<li>这个在服务器不会有什么问题，因为服务器加载的js文件都是本地文件，加载速度非常快；</li>
+</ul>
+<p>如果将它应用于浏览器呢？</p>
+<ul>
+<li>浏览器加载js文件需要先从服务器将文件下载下来，之后在加载运行；</li>
+<li>那么<strong>采用同步的就意味着后续的js代码都无法正常运行</strong>，即使是一些简单的DOM操作；</li>
+</ul>
+<p>所以<strong>在浏览器中，我们通常不使用CommonJS规范</strong>： </p>
+<p>当然在webpack中使用CommonJS是另外一回事；因为它会将我们的代码转成浏览器可以直接执行的代码；</p>
+<ul>
+<li>在早期为了可以在浏览器中使用模块化，通常会采用<strong>AMD或CMD</strong>： </li>
+<li>但是目前一方面现代的浏览器已经支持ES Modules，另一方面借助于webpack等工具可以实现对CommonJS或者ES Module代码的转换； </li>
+</ul>
+<p>AMD和CMD已经使用非常少了，所以这里我们进行简单的演练；</p>
+<h3 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h3><ul>
+<li>AMD主要是<strong>应用于浏览器</strong>的一种模块化规范：</li>
+<li>AMD是Asynchronous Module Definition（异步模块定义）的缩写； </li>
+<li>它采用的是<strong>异步加载模块</strong>；</li>
+<li>事实上AMD的规范还要早于CommonJS，但是CommonJS目前依然在被使用，而AMD使用的较少了；</li>
+<li>我们提到过，规范只是定义代码的应该如何去编写，只有有了具体的实现才能被应用：</li>
+<li>AMD实现的比较常用的库是<strong>require.js和curl.js</strong>；</li>
+</ul>
+<p>实际演练：</p>
+<p>下载require.js <a target="_blank" rel="noopener" href="https://github.com/requirejs/requirejs">https://github.com/requirejs/requirejs</a></p>
+<p>定义HTML的script标签引入require.js和定义入口文件：data-main属性的作用是在加载完src的文件后会加载执行该文件</p>
+<pre class="language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>./lib/require.js<span class="token punctuation">"</span></span> <span class="token attr-name">data-main</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>./index.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></code></pre>
+
+<p>index.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">(function () {
+  require.config({
+    baseUrl: '',
+    path: {
+      foo: './modules/foo',
+      bar: '/module/bar',
+    },
+  });
+  require(['foo'], function (foo) {});
+});
+</code></pre>
+
+<p>foo.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">define((['bar'],
+function (bar) {
+  console.log(bar.name);
+  console.log(bar.age);
+}));
+</code></pre>
+
+<p>bar.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">define(function () {
+  const name = 'aaa';
+  const age = 20;
+
+  return {
+    name,
+    age,
+  };
+});
+</code></pre>
+
+
+
+<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><ul>
+<li>CMD规范也是<strong>应用于浏览器</strong>的一种模块化规范：</li>
+<li>CMD 是Common Module Definition（通用模块定义）的缩写； </li>
+<li>它也采用了<strong>异步加载模块</strong>，但是它将CommonJS的优点吸收了过来；</li>
+<li>但是目前CMD使用也非常少了；</li>
+<li>CMD也有自己比较优秀的实现方案： </li>
+<li><strong>SeaJS</strong></li>
+</ul>
+<p>实际演练：</p>
+<p>index.html</p>
+<pre class="language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>./lib/sea.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+        sea<span class="token punctuation">.</span>js<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">'./index.js'</span><span class="token punctuation">)</span>
+    </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></code></pre>
+
+<p>index.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">define(function (require, exports, module) {
+  const foo = require('./module/foo');
+});
+</code></pre>
+
+<p>foo.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">define(function (require, exports, module) {
+  const bar = require('./bar');
+  console.log(bar.name);
+  console.log(bar.age);
+});
+</code></pre>
+
+<p>bar.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">define(function (require, exports, module) {
+  const name = 'aaa';
+  const age = 20;
+});
+module.exports = {
+  name,
+  age,
+};</code></pre>
+
+<p>AMD CMD可自行了解</p>
+<h1 id="三、ES-Module"><a href="#三、ES-Module" class="headerlink" title="三、ES Module"></a>三、ES Module</h1><p>JavaScript没有模块化一直是它的痛点，所以才会产生前面学习的社区规范：CommonJS、AMD、CMD等，所以在ES6推出自己的模块化系统</p>
+<p>ES Module和CommonJS的模块化有一些不同之处： </p>
+<ul>
+<li>一方面它使用了<strong>import和export</strong>关键字； </li>
+<li>另一方面它采用<strong>编译期的静态分析</strong>，并且也加入了<strong>动态引用</strong>的方式；</li>
+<li>ES Module模块采用export和import关键字来实现模块化：</li>
+<li>export负责将模块内的内容导出；</li>
+<li>import负责从其他模块导入内容； </li>
+</ul>
+<p>了解：采用ES Module将自动采用严格模式：<strong>use strict</strong></p>
+<p>注意：</p>
+<ul>
+<li>如果你通过本地加载Html 文件 (比如一个 file:// 路径的文件), 你将会遇到 CORS 错误，因为Javascript 模块安全性需要。需要通过一个服务器来测试</li>
+</ul>
+<p>index.html</p>
+<pre class="language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>./index.js<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></code></pre>
+
+<p>index.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">console.log(1);</code></pre>
+
+<p>浏览器报错：</p>
+<p><img src="http://cdn.michstabe.cn/blog/211111/kfIC2dg97C.png?imageslim"></p>
+<p>可以通过vscode插件Live Server来解决</p>
+<p><img src="http://cdn.michstabe.cn/blog/211111/Jh0D6Fg4Aj.png?imageslim"></p>
+<p>就可以正常运行了</p>
+<h2 id="export"><a href="#export" class="headerlink" title="export"></a>export</h2><p>export关键字将一个模块中的变量，函数，类等导出</p>
+<p>方式如下：</p>
+<p>1、在语句声明前加上export关键字</p>
+<pre class="language-none"><code class="language-none">export let name = 'aaa'</code></pre>
+
+<p>2、将所以需要导出的标识，放到export后面的{}中</p>
+<ul>
+<li><strong>这里的{}里面不是ES6的对象字面量的增强写法，{}也不是表示的一个对象</strong></li>
+<li>所以export:{name:name}，是错误的写法</li>
+</ul>
+<pre class="language-html" data-language="html"><code class="language-html">let name = 'bbb';
+let age = 20;
+function say(data) {
+  console.log('Hello ' + data);
+}
+
+export { name, age, say };</code></pre>
+
+<p>3、导出时给标识符起一个别名</p>
+<pre class="language-html" data-language="html"><code class="language-html">let name = 'bbb';
+let age = 20;
+function say(data) {
+  console.log('Hello ' + data);
+}
+
+export { name as fName, age as fAge, say as fSay };</code></pre>
+
+<h2 id="import"><a href="#import" class="headerlink" title="import"></a>import</h2><p>import关键字负责从另一个模块中导入内容</p>
+<p>方式如下：</p>
+<p>1、import {标识符列表} from ‘模块’</p>
+<pre class="language-html" data-language="html"><code class="language-html">import {name,say} from './foo.js'</code></pre>
+
+<p>2、导入时给标识符起别名</p>
+<pre class="language-html" data-language="html"><code class="language-html">import {name as Name,say as Say} from './foo.js'</code></pre>
+
+<p>3、通过*将模块功能放到一个模块功能对象上</p>
+<pre class="language-none"><code class="language-none">import * as index from './foo.js'
+
+console.log(index.name);
+index.say('hhh')</code></pre>
+
+<h2 id="export和import结合使用"><a href="#export和import结合使用" class="headerlink" title="export和import结合使用"></a>export和import结合使用</h2><pre class="language-none"><code class="language-none">export {name} from './foo.js'</code></pre>
+
+<p>为什么这么做：</p>
+<ul>
+<li>在开发和封装一个功能库时，通常<strong>我们希望将暴露的所有接口放到一个文件中</strong>；</li>
+<li>这样方便指定统一的接口规范，也方便阅读； </li>
+<li>这个时候，我们就可以使用export和import结合使用；</li>
+</ul>
+<h2 id="default"><a href="#default" class="headerlink" title="default"></a>default</h2><p>前面学习的导出方法都是有名字的导出 export{name}</p>
+<ul>
+<li>在导出export时指定了名字； </li>
+<li>在导入import时需要知道具体的名字； </li>
+</ul>
+<p>还有一种导出叫做默认导出（default export） </p>
+<ul>
+<li>默认导出export时可以不需要指定名字； </li>
+<li>在导入时不需要使用 {}，并且可以自己来指定名字； </li>
+<li>它也方便我们和现有的CommonJS等规范相互操作；</li>
+</ul>
+<pre class="language-html" data-language="html"><code class="language-html">//默认导出
+export default function say(data) {
+  console.log('Hello ' + data);
+}
+
+//导入。可以自定义名字
+import say1 from './foo.js';
+say1('hhh');</code></pre>
+
+<p><strong>注意：在一个模块中，只能有一个默认导出（default export）；</strong></p>
+<h2 id="import函数"><a href="#import函数" class="headerlink" title="import函数"></a>import函数</h2><p>通过import加载一个模块，是不可以将其放到逻辑代码中的：</p>
+<pre class="language-html" data-language="html"><code class="language-html">let flag = true
+if(flag) {
+	import {name} from './foo.js';
+}</code></pre>
+
+<ul>
+<li>这是因为ES Module在被JS引擎<strong>解析时</strong>，就必须知道它的依赖关系；</li>
+<li>由于这个时候js代码没有任何的运行，所以无法在进行类似于if判断中根据代码的执行情况；</li>
+<li>甚至下面的这种写法也是错误的：因为我们必须到运行时能确定path的值；</li>
+</ul>
+<p>解析的时候只是let flag 没进行赋值，所以if(flag)不是if(true) 那么也就确定不了依赖关系</p>
+<p>但是某些情况下，我们希望动态的加载某一个模块，这个时候就需要impoort函数</p>
+<pre class="language-html" data-language="html"><code class="language-html">let flag = true;
+if (flag) {
+  import('./foo.js').then((res) =&gt; {
+    console.log(res, res.name, res.age); //Module {Symbol(Symbol.toStringTag): 'Module'} 'bbb' 20
+  });
+}</code></pre>
+
+<p>因为import函数返回的是一个promise对象，所以可以.then()</p>
+<h2 id="CommonJS加载过程"><a href="#CommonJS加载过程" class="headerlink" title="CommonJS加载过程"></a>CommonJS加载过程</h2><ul>
+<li><strong>CommonJS模块加载js文件的过程是运行时加载的，并且是同步的：</strong><ul>
+<li>运行时加载意味着是js引擎在执行js代码的过程中加载 模块；</li>
+<li>同步的就意味着一个文件没有加载结束之前，后面的代码都不会执行；</li>
+</ul>
+</li>
+</ul>
+<pre class="language-html" data-language="html"><code class="language-html">let flag = true
+if(flag) {
+	const foo = require('./foo')
+	console.log("if语句继续执行")
+}</code></pre>
+
+<p>CommonJS导出的是一个对象</p>
+<ul>
+<li>导出的是一个对象意味着可以将这个对象的引用在其他模块中赋值给其他变量；</li>
+<li>但是最终他们指向的都是同一个对象，那么一个变量修改了对象的属性，所有的地方都会被修改；</li>
+</ul>
+<h2 id="ES6-Module加载过程"><a href="#ES6-Module加载过程" class="headerlink" title="ES6 Module加载过程"></a>ES6 Module加载过程</h2><p><strong>ES Module加载js文件的过程是编译（解析）时加载的，并且是异步的：</strong></p>
+<ul>
+<li>编译时（解析）时加载，意味着import不能和运行时相关的内容放在一起使用：<ul>
+<li>比如from后面的路径需要动态获取； </li>
+<li>比如不能将import放到if等语句的代码块中；</li>
+</ul>
+</li>
+</ul>
+<p>所以我们有时候也称ES Module是静态解析的，而不是动态或者运行时解析的；</p>
+<p>异步的意味着：JS引擎在遇到import时会去获取这个js文件，但是这个获取的过程是异步的，并不会阻塞主线程继续执行；</p>
+<ul>
+<li>也就是说设置了 type=module 的代码，相当于在script标签上也加上了 async 属性；</li>
+<li>如果我们后面有普通的script标签以及对应的代码，那么ES Module对应的js文件和代码不会阻塞它们的执行；</li>
+</ul>
+<pre class="language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>main.js<span class="token punctuation">"</span></span> <span class="token attr-name">type</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">/&gt;</span></span>
+
+//这个js文件不会被阻塞执行，因为模块加载为异步
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>index.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>scrippt</span><span class="token punctuation">/&gt;</span></span></code></pre>
+
+<p><strong>ES Module通过export导出的是变量本身的引用：</strong></p>
+<ul>
+<li>export在导出一个变量时，js引擎会解析这个语法，并且创建<strong>模块环境记录</strong>（module environment record）；</li>
+<li><strong>模块环境记录</strong>会和变量进行 绑定（binding），并且这个绑定是<strong>实时的</strong>；</li>
+<li>而在导入的地方，我们是可以实时的获取到绑定的最新值的；</li>
+<li>所以，如果在导出的模块中修改了变化，那么导入的地方可以实时获取最新的变量；</li>
+</ul>
+<p>foo.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">let name = 'bbb';
+let age = 20;
+
+setTimeout(() =&gt; {
+    name = 'dddd'
+},1000)
+
+export { name, age };</code></pre>
+
+<p>index.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">import {name,age} from './foo.js';
+
+console.log(name);
+
+setTimeout(() =&gt; {
+    console.log(name);
+},2000)</code></pre>
+
+<p>打印结果</p>
+<pre class="language-html" data-language="html"><code class="language-html">bbb
+
+2s后：
+dddd</code></pre>
+
+<p><strong>注意：在导入的地方不可以修改变量，因为它只是被绑定到了这个变量上（其实是一个常量）</strong></p>
+<p>index.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">setTimeout(() =&gt; {
+    name = 'gggg'
+    console.log(name);
+},2000)</code></pre>
+
+<p><img src="http://cdn.michstabe.cn/blog/211111/1KK6EE2k5h.png?imageslim"></p>
+<p>思考：如果foo.js中导出的是一个对象，那么index.js中是否可以修改对象中的属性呢？</p>
+<p>foo.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">let obj = {name:'xxx'}
+let age = 20;
+
+export { obj, age };</code></pre>
+
+<p>index.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">import {obj,age} from './foo.js';
+
+console.log(obj.name);
+
+setTimeout(() =&gt; {
+    obj.name = 'lll'
+    console.log(obj.name);
+},2000)</code></pre>
+
+<p>打印结果：</p>
+<pre class="language-html" data-language="html"><code class="language-html">xxx
+
+2s后：
+lll</code></pre>
+
+<p><strong>画图解析</strong></p>
+<p><img src="http://cdn.michstabe.cn/blog/211111/cgjC456d0K.png?imageslim"></p>
+<p>如果foo.js导出的是个对象比如obj</p>
+<p>那么是引用类型，那么导入的一方指向的也是同一内存空间，双方都可以修改属性</p>
+<p>如果导出的不是对象，如let name = ‘xxx’ let age = 20那么导入方就不允许修改</p>
+<p>因为会有一个模块环境记录</p>
+<pre class="language-none"><code class="language-none">bindings:实时绑定
+Const name = name
+Const age = age</code></pre>
+
+<p><strong>第一个name是维护的常量,导入的一方指向的就是这个常量，所以不允许修改的，第二个name是foo中的引用也就是xxx</strong></p>
+<p>当我在foo中进行修改的时候，比如 name = ‘dddd’</p>
+<p>那么实际上是把Const name = name = ‘xxx’删除掉，然后重新记录Const name = name = ‘dddd’</p>
+<h2 id="Node对ES-Module的支持"><a href="#Node对ES-Module的支持" class="headerlink" title="Node对ES Module的支持"></a>Node对ES Module的支持</h2><p>正常情况下，我们在node里去使用ES语法是不支持的</p>
+<p>foo.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">let name = 'xxx';
+let age = 20;
+export { name, age };
+</code></pre>
+
+<p>main.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">import { name, age } from './foo.js';
+console.log(name);
+console.log(age);
+</code></pre>
+
+<p>node main.js</p>
+<pre class="language-html" data-language="html"><code class="language-html">E:\project\vs  project\Node学习\03-JavaScript-Module\06-Node_ES6_Module&gt;node main.js
+(node:14364) Warning: To load an ES module, set "type": "module" in the package.json or use the .mjs extension.
+E:\project\vs  project\Node学习\03-JavaScript-Module\06-Node_ES6_Module\main.js:1
+import { name, age } from './foo.js';
+^^^^^^
+
+SyntaxError: Cannot use import statement outside a module
+    at wrapSafe (internal/modules/cjs/loader.js:931:16)
+    at Module._compile (internal/modules/cjs/loader.js:979:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1035:10)
+    at Module.load (internal/modules/cjs/loader.js:879:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:60:12)
+    at internal/main/run_main_module.js:17:47</code></pre>
+
+<p>在最新的Current版本（v14.13.1）中，支持es module我们需要进行如下操作：</p>
+<ul>
+<li>方式一：在package.json中配置 type: module（后续学习）</li>
+<li>方式二：文件以 .mjs 结尾，表示使用的是ES Module； </li>
+</ul>
+<p>这里暂时选择以 .mjs 结尾的方式来演练： </p>
+<p>将两个文件都修改为.mjs后缀，注意引入文件那里把.js改为.mjs</p>
+<p>node main.mjs</p>
+<pre class="language-html" data-language="html"><code class="language-html">E:\project\vs  project\Node学习\03-JavaScript-Module\06-Node_ES6_Module&gt;node main.mjs
+(node:16344) ExperimentalWarning: The ESM module loader is experimental.
+xxx
+20 </code></pre>
+
+<h2 id="CommonJS和ES-Module的交互"><a href="#CommonJS和ES-Module的交互" class="headerlink" title="CommonJS和ES Module的交互"></a>CommonJS和ES Module的交互</h2><p>结论一：通常情况下，CommonJS不能加载ES Module</p>
+<ul>
+<li>因为CommonJS是同步加载的，但是ES Module必须经过静态分析等，无法在这个时候执行JavaScript代码；</li>
+<li>但是这个并非绝对的，某些平台在实现的时候可以对代码进行针对性的解析，也可能会支持； </li>
+<li>Node当中是不支持的；</li>
+</ul>
+<p>结论二：多数情况下，ES Module可以加载CommonJS</p>
+<ul>
+<li>ES Module在加载CommonJS时，会将其module.exports导出的内容<strong>作为default导出方式</strong>来使用；</li>
+<li>这个依然需要看具体的实现，比如webpack中是支持的、Node最新的Current版本也是支持的；</li>
+<li>但是在最新的LTS版本中就不支持</li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">MichstaBe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://ulrica-ch.github.io/posts/2271743364/">https://ulrica-ch.github.io/posts/2271743364/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">MichstaBe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/CommobJS/">
+                                    <span class="chip bg-color">CommobJS</span>
+                                </a>
+                            
+                                <a href="/tags/AMD/">
+                                    <span class="chip bg-color">AMD</span>
+                                </a>
+                            
+                                <a href="/tags/CMD/">
+                                    <span class="chip bg-color">CMD</span>
+                                </a>
+                            
+                                <a href="/tags/ES6-Module/">
+                                    <span class="chip bg-color">ES6 Module</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%A8%A1%E5%9D%97%E5%8C%96/">
+                                    <span class="chip bg-color">模块化</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'baPwGXa2IUzmtvSuQn1I4WT7-gzGzoHsz',
+        appKey: 'MNnOEMRv9FirEbhOGxroPx1b',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/posts/55470810/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="九、React练习-TodoList案例">
+                        
+                        <span class="card-title">九、React练习-TodoList案例</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-11
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/React/" class="post-category">
+                                    React
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/TodoList%E6%A1%88%E4%BE%8B/">
+                        <span class="chip bg-color">TodoList案例</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/posts/2421724746/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/36.jpg" class="responsive-img" alt="八、React脚手架">
+                        
+                        <span class="card-title">八、React脚手架</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-09
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/React/" class="post-category">
+                                    React
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%BB%84%E4%BB%B6/">
+                        <span class="chip bg-color">组件</span>
+                    </a>
+                    
+                    <a href="/tags/React%E8%84%9A%E6%89%8B%E6%9E%B6/">
+                        <span class="chip bg-color">React脚手架</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021</span>
+            
+            <a href="/about" target="_blank">MichstaBe-XY</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">104.2k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Ulrica-CH" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:210871791@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=210871791" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 210871791" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

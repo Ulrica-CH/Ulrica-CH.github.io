@@ -1,0 +1,2593 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="React">
+    <meta name="description" content="# 一、什么是redux
+
+中文文档: http://www.redux.org.cn/
+npm i redux
+之前学过vuex，这两个差不多，都是状态管理用的
+
+redux是一个专门用于做状态管理的JS库(不是react插件库)。
+
+可">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>十五、React-Redux | MichstaBe</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">MichstaBe</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/todolist" class="waves-effect waves-light">
+      
+      <i class="fas" style="zoom: 0.6;"></i>
+      
+      <span>todolist</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">MichstaBe</div>
+        <div class="logo-desc">
+            
+            心中有梦，眼里有光，铭记过去，拥抱未来
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/todolist" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas"></i>
+			
+			todolist
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">十五、React-Redux</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/React/">
+                                <span class="chip bg-color">React</span>
+                            </a>
+                        
+                            <a href="/tags/Redux/">
+                                <span class="chip bg-color">Redux</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/React/" class="post-category">
+                                React
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-12-02
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2021-12-10
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    5.5k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    25 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                # 一、什么是redux
+
+<p>中文文档: <a target="_blank" rel="noopener" href="http://www.redux.org.cn/">http://www.redux.org.cn/</a></p>
+<p>npm i redux</p>
+<p>之前学过vuex，这两个差不多，都是状态管理用的</p>
+<ul>
+<li><p>redux是一个专门用于做状态管理的JS库(<strong>不是react插件库</strong>)。</p>
+</li>
+<li><p>可以用在react, angular, vue等项目中, 但基本与react配合使用。</p>
+</li>
+<li><p>作用: 集中式管理react应用中多个组件共享的状态。</p>
+</li>
+</ul>
+<p>1.3. 什么情况下需要使用redux</p>
+<ul>
+<li>某个组件的状态，需要让其他组件可以随时拿到（共享）</li>
+<li>一个组件需要改变另一个组件的状态（通信）</li>
+<li>总体原则：能不用就不用, 如果不用比较吃力才考虑使用</li>
+</ul>
+<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><p><img src="http://cdn.michstabe.cn/blog/211202/6kag0Bf6Hi.png?imageslim"></p>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><p>action</p>
+<ul>
+<li>动作的对象</li>
+<li>包含 2 个属性</li>
+<li>type：标识属性, 值为字符串, 唯一, 必要属性</li>
+<li>data：数据属性, 值类型任意, 可选属性</li>
+<li>例子：{ type: ‘ADD_STUDENT’,data:{name: ‘tom’,age:18} }</li>
+</ul>
+<p>reducer</p>
+<ul>
+<li>用于初始化状态、加工状态。</li>
+<li>加工时，根据旧的state和action， <strong>产生新的state的纯函数</strong>。</li>
+</ul>
+<p>store</p>
+<ul>
+<li>将state、action、reducer联系在一起的对象</li>
+<li>如何得到此对象?</li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">import {createStore} from 'redux'
+
+import reducer from './reducers'
+
+const store = createStore(reducer)</code></pre>
+
+<p>此对象的功能?</p>
+<pre class="language-js" data-language="js"><code class="language-js">store<span class="token punctuation">.</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token comment">//得到state</span>
+
+store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span>action<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token comment">//分发action, 触发reducer调用, 产生新的state</span>
+
+store<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span>listener<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token comment">//注册监听, 当产生了新的state时, 自动调用</span></code></pre>
+
+<h2 id="求和案例"><a href="#求和案例" class="headerlink" title="求和案例"></a>求和案例</h2><h3 id="纯react版"><a href="#纯react版" class="headerlink" title="纯react版"></a>纯react版</h3><p>App.jsx:</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+import Count from './components/Count';
+export default class App extends Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;Count /&gt;
+      &lt;/div&gt;
+    );
+  }
+}</code></pre>
+
+<p>Count.jsx:</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+
+export default class Count extends Component {
+  state = { count: 0 };
+  //相加
+  increment = () =&gt; {
+    const { value } = this.selectedValue;
+    const { count } = this.state;
+    this.setState({ count: count + value * 1 });
+  };
+  //相减
+  decrement = () =&gt; {
+    const { value } = this.selectedValue;
+    const { count } = this.state;
+    this.setState({ count: count + value * 1 });
+  };
+  //和为基数时相加
+  incrementIfOdd = () =&gt; {
+    const { value } = this.selectedValue;
+    const { count } = this.state;
+    if (count % 2 !== 0) {
+      this.setState({ count: count + value * 1 });
+    }
+  };
+  //异步相加
+  incrementAsync = () =&gt; {
+    const { value } = this.selectedValue;
+    const { count } = this.state;
+    setTimeout(() =&gt; {
+      this.setState({ count: count + value * 1 });
+    }, 2000);
+  };
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;求和为：{this.state.count}&lt;/h1&gt;
+        &lt;select ref={(c) =&gt; (this.selectedValue = c)}&gt;
+          &lt;option value="1"&gt;1&lt;/option&gt;
+          &lt;option value="2"&gt;2&lt;/option&gt;
+          &lt;option value="3"&gt;3&lt;/option&gt;
+        &lt;/select&gt;
+        &amp;nbsp;
+        &lt;button onClick={this.increment}&gt;+&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.decrement}&gt;-&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.incrementIfOdd}&gt;和为基数再相加&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.incrementAsync}&gt;异步相加&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre>
+
+<h2 id="react精简版：不包含Action-Creators"><a href="#react精简版：不包含Action-Creators" class="headerlink" title="react精简版：不包含Action Creators"></a>react精简版：不包含Action Creators</h2><p>新建redux目录下新建store.js count_reducer.js</p>
+<p>store.js</p>
+<pre class="language-react" data-language="react"><code class="language-react">/*
+    该文件专门用于暴露一个store对象，整个应用只有一个store对象
+ */
+
+//引入createStore，专门用于创建redux中最为核心的store对象
+import { createStore } from 'redux';
+//引入为Count组件服务的reducer
+import countReducer from './count_reducer';
+//暴露store
+export default createStore(countReducer);
+</code></pre>
+
+<p>count_reducer.js</p>
+<pre class="language-react" data-language="react"><code class="language-react">/*
+    该文件适用于创建一个为Count组件服务的reducer reducer本质上是一个函数
+*/
+const initState = 0; // 初始化状态
+export default function countReducer(pre = initState, action) {
+  // console.log(pre, action);
+  const { type, data } = action;
+  switch (type) {
+    case 'increment':
+      return pre + data;
+    case 'decrement':
+      return pre - data;
+    default:
+      return pre;
+  }
+}
+</code></pre>
+
+<p>Count.jsx</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+import store from '../../redux/store';
+export default class Count extends Component {
+  state = {};
+  //redux只是更改并保存状态，默认不会刷新，所以需要监听，状态更改后，调用render刷新
+  //this.setState()默认会调用render
+  componentDidMount() {
+      store.subscribe(() =&gt; {
+          this.setState({})
+      })
+  }
+  //相加
+  increment = () =&gt; {
+    const { value } = this.selectedValue;
+    store.dispatch({ type: 'increment', data: value * 1 });
+  };
+  //相减
+  decrement = () =&gt; {
+    const { value } = this.selectedValue;
+    store.dispatch({ type: 'decrement', data: value * 1 });
+  };
+  //和为基数再相加
+  incrementIfOdd = () =&gt; {
+    const { value } = this.selectedValue;
+    const  count  = store.getState()
+    if (count % 2 !== 0) {
+        store.dispatch({ type: 'increment', data: value * 1 });
+    }
+  };
+  //异步相加
+  incrementAsync = () =&gt; {
+    const { value } = this.selectedValue;
+    setTimeout(() =&gt; {
+        store.dispatch({ type: 'increment', data: value * 1 });
+    }, 2000);
+  };
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;求和为：{store.getState()}&lt;/h1&gt;
+        &lt;select ref={(c) =&gt; (this.selectedValue = c)}&gt;
+          &lt;option value="1"&gt;1&lt;/option&gt;
+          &lt;option value="2"&gt;2&lt;/option&gt;
+          &lt;option value="3"&gt;3&lt;/option&gt;
+        &lt;/select&gt;
+        &amp;nbsp;
+        &lt;button onClick={this.increment}&gt;+&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.decrement}&gt;-&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.incrementIfOdd}&gt;和为基数再相加&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.incrementAsync}&gt;异步相加&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}</code></pre>
+
+<p>redux只是更改并保存状态，默认不会刷新，所以需要监听，状态更改后，调用render刷新<br>this.setState()默认会调用render</p>
+<p>但是这样如果有多个组件，需要在每个组件中都i要写一遍，</p>
+<p>直接放到index.js中更好</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import store from './redux/store';
+ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));
+store.subscribe(() =&gt; {
+  ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));
+});</code></pre>
+
+<p>这样就算有多个组件</p>
+<p>其中一个变化</p>
+<p>因为diff算法，其余组件也不会重新渲染。</p>
+<h3 id="总结精简版"><a href="#总结精简版" class="headerlink" title="总结精简版"></a>总结精简版</h3><p>(1).去除Count组件自身的状态</p>
+<p>(2).src下建立:</p>
+<ul>
+<li>-redux<ul>
+<li>-store.js</li>
+<li>-count_reducer.js</li>
+</ul>
+</li>
+</ul>
+<p>(3).store.js：</p>
+<ul>
+<li>引入redux中的createStore函数，创建一个store</li>
+<li>createStore调用时要传入一个为其服务的reducer</li>
+<li>记得暴露store对象</li>
+</ul>
+<p>(4).count_reducer.js：</p>
+<ul>
+<li>reducer的本质是一个函数，接收：preState,action，返回加工后的状态</li>
+<li>reducer有两个作用：初始化状态，加工状态</li>
+<li>reducer被第一次调用时，是store自动触发的，<ul>
+<li>传递的preState是undefined,</li>
+<li>传递的action是:{type:‘@@REDUX/INIT_a.2.b.4}</li>
+</ul>
+</li>
+</ul>
+<p>(5).在index.js中监测store中状态的改变，一旦发生改变重新渲染<code>&lt;App/&gt;</code></p>
+<ul>
+<li>备注：redux只负责管理状态，至于状态的改变驱动着页面的展示，要靠我们自己写。</li>
+</ul>
+<h2 id="redux完整版"><a href="#redux完整版" class="headerlink" title="redux完整版"></a>redux完整版</h2><p>redux目录下新建</p>
+<ul>
+<li>count_action.js : 专门用于创建action对象</li>
+<li>constant.js : constant.js 放置容易写错的type的类型值</li>
+</ul>
+<p>count_action.js:</p>
+<pre class="language-react" data-language="react"><code class="language-react">import { INCREMENT, DECREMENT } from './constant';
+export const increment = (data) =&gt; ({ type: INCREMENT, data });
+export const decrement = (data) =&gt; ({ type: DECREMENT, data });</code></pre>
+
+<p>constant.js:</p>
+<pre class="language-react" data-language="react"><code class="language-react">//定义action中type的常量值，为了防止单词拼写错误且便于管理
+export const INCREMENT = 'increment';
+export const DECREMENT = 'decrement';</code></pre>
+
+<p>Count.jsx:</p>
+<pre class="language-react" data-language="react"><code class="language-react">increment = () =&gt; {
+    const { value } = this.selectedValue;
+    store.dispatch(increment(value * 1));
+  };
+  //相减
+  decrement = () =&gt; {
+    const { value } = this.selectedValue;
+    store.dispatch(decrement(value * 1));
+  };
+  //和为基数再相加
+  incrementIfOdd = () =&gt; {
+    const { value } = this.selectedValue;
+    const count = store.getState();
+    if (count % 2 !== 0) {
+      store.dispatch(increment(value * 1));
+    }
+  };
+  //异步相加
+  incrementAsync = () =&gt; {
+    const { value } = this.selectedValue;
+    setTimeout(() =&gt; {
+      store.dispatch(increment(value * 1));
+    }, 2000);
+  };</code></pre>
+
+<h2 id="异步action版"><a href="#异步action版" class="headerlink" title="异步action版"></a>异步action版</h2><p>目的：延迟的动作不想交给组件自身，想交给action</p>
+<p>需求场景：想要对状态进行操作，但是具体的数据靠异步任务返回（非必须）</p>
+<p>Count.jsx</p>
+<pre class="language-react" data-language="react"><code class="language-react">//此时的异步相加是放在组件中的
+  //想要交给action怎么办呢？
+  // incrementAsync = () =&gt; {
+  //   const { value } = this.selectedValue;
+  //   setTimeout(() =&gt; {
+  //     store.dispatch(increment(value * 1));
+  //   }, 2000);
+  // };
+
+  incrementAsync = () =&gt; {
+    const { value } = this.selectedValue;
+    //异步加法操作，传递一个延迟时间
+    store.dispatch(incrementAsyncAction(value * 1, 1000));
+  };</code></pre>
+
+<p>具体操作：</p>
+<p>1、yarn add redux-thunk 配置在store中</p>
+<pre class="language-react" data-language="react"><code class="language-react">/*
+    该文件专门用于暴露一个store对象，整个应用只有一个store对象
+ */
+
+//引入createStore，专门用于创建redux中最为核心的store对象
+import { createStore,applyMiddleware } from 'redux';
+//引入为Count组件服务的reducer
+import countReducer from './count_reducer';
+//引入thunk
+import thunk from 'redux-thunk'
+//暴露store
+export default createStore(countReducer,applyMiddleware(thunk));
+</code></pre>
+
+<ul>
+<li>dispatch一个action之后，到达reducer之前，进行一些额外的操作，就需要用到middleware。</li>
+<li>你可以利用 Redux middleware 来进行日志记录、创建崩溃报告、调用异步接口或者路由等等。</li>
+<li>换言之，中间件都是对store.dispatch()的增强</li>
+<li>直接将thunk中间件引入，放在applyMiddleware方法之中，传入createStore方法，就完成了store.dispatch()的功能增强。即可以在reducer中进行一些异步的操作。</li>
+</ul>
+<p>applyMiddleware()</p>
+<ul>
+<li>其实applyMiddleware就是Redux的一个原生方法，<strong>将所有中间件组成一个数组</strong>，依次执行。<br>中间件多了可以当做参数依次传进去</li>
+</ul>
+<p>2、创建action的函数不再返回一般对象，而是一个函数，该函数中写异步任务。</p>
+<p>3、异步任务有结果后，分发一个同步任务去操作真正的数据</p>
+<p>redux -&gt; count_action.js</p>
+<pre class="language-react" data-language="react"><code class="language-react">import { INCREMENT, DECREMENT } from './constant';
+//action返回的是一个Object 为同步action
+export const increment = (data) =&gt; ({ type: INCREMENT, data });
+export const decrement = (data) =&gt; ({ type: DECREMENT, data });
+//action返回的是一个Function 为异步action
+export const incrementAsyncAction = (data, time) =&gt; {
+  return (dispatch) =&gt; {
+    setTimeout(() =&gt; {
+        //默认返回一个dispatch 不需要再store.dispatch
+      //异步任务有了结果以后，分发一个同步action 去真正操作数据
+      dispatch(increment(data));
+    }, time);
+  };
+};</code></pre>
+
+<p>注意：异步action不是必须的，完全可以自己在组件中等待异步结果再去执行同步action</p>
+<h2 id="react-redux"><a href="#react-redux" class="headerlink" title="react-redux"></a>react-redux</h2><p>一个React插件库</p>
+<p>专门用来简化React应用中使用redux</p>
+<p><img src="http://cdn.michstabe.cn/blog/211128/0CBI9LA304.png?imageslim"></p>
+<p>react-redux将所有组件分成两大类</p>
+<ul>
+<li>UI组件<ul>
+<li>只负责 UI 的呈现，不带有任何业务逻辑</li>
+<li>通过props接收数据(一般数据和函数)</li>
+<li><strong>不使用任何 Redux 的 API</strong></li>
+<li><strong>一般保存在components文件夹下</strong></li>
+</ul>
+</li>
+<li>容器组件<ul>
+<li>负责管理数据和业务逻辑，不负责UI的呈现</li>
+<li>使用 Redux 的 API</li>
+<li>一般保存在containers文件夹下</li>
+</ul>
+</li>
+</ul>
+<h3 id="连接容器组件和UI组件"><a href="#连接容器组件和UI组件" class="headerlink" title="连接容器组件和UI组件"></a>连接容器组件和UI组件</h3><p>UI组件中的业务逻辑等都删除掉</p>
+<p>components -&gt; Count</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+export default class Count extends Component {
+  //相加
+  increment = () =&gt; {
+    const { value } = this.selectedValue;
+  };
+  //相减
+  decrement = () =&gt; {
+    const { value } = this.selectedValue;
+  };
+  //和为基数再相加
+  incrementIfOdd = () =&gt; {
+    const { value } = this.selectedValue;
+  };
+  incrementAsync = () =&gt; {
+    const { value } = this.selectedValue;
+    //还是加法操作，传递一个延迟时间
+  };
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;求和为：？？？&lt;/h1&gt;
+        &lt;select ref={(c) =&gt; (this.selectedValue = c)}&gt;
+          &lt;option value="1"&gt;1&lt;/option&gt;
+          &lt;option value="2"&gt;2&lt;/option&gt;
+          &lt;option value="3"&gt;3&lt;/option&gt;
+        &lt;/select&gt;
+        &amp;nbsp;
+        &lt;button onClick={this.increment}&gt;+&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.decrement}&gt;-&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.incrementIfOdd}&gt;和为基数再相加&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.incrementAsync}&gt;异步相加&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}</code></pre>
+
+<p>新建containers目录下Count容器组件‘</p>
+<pre class="language-react" data-language="react"><code class="language-react">//引入UI组件
+import CountUI from '../../components/Count';
+//引入store
+import store from '../../redux/store';
+//引入react-redux中的connect用于连接
+import { connect } from 'react-redux';
+//使用connect()()创建并暴露一个Count的容器组件
+export default connect()(CountUI);</code></pre>
+
+<p>App.jsx中引入容器组件而不是UI组件：</p>
+<pre class="language-react" data-language="react"><code class="language-react">import Count from './containers/Count';
+</code></pre>
+
+<p>yarn start：</p>
+<p><img src="http://cdn.michstabe.cn/blog/211128/7agbe4Bg2e.png?imageslim"></p>
+<p>报错….</p>
+<p>因为不允许我们手动引入store</p>
+<pre class="language-react" data-language="react"><code class="language-react">//引入store
+import store from '../../redux/store';
+</code></pre>
+
+<p>而是要传递给Count容器组件</p>
+<pre class="language-react" data-language="react"><code class="language-react">export default class App extends Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;Count store={store} /&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre>
+
+<p>yarn start:</p>
+<p><img src="http://cdn.michstabe.cn/blog/211128/92FLA86747.png?imageslim"></p>
+<p>页面正常显示，为什么这么做？继续往下看。</p>
+<h3 id="react-redux的基本使用"><a href="#react-redux的基本使用" class="headerlink" title="react-redux的基本使用"></a>react-redux的基本使用</h3><p>明确两个概念：</p>
+<ul>
+<li>UI组件:不能使用任何 redux 的api，只负责页面的呈现、交互等。</li>
+<li>容器组件：负责和 redux 通信，将结果交给UI组件。</li>
+</ul>
+<p>如何创建一个容器组件————靠 react-redux 的 connect 函数</p>
+<p>connect(mapStateToProps,mapDispatchToProps)(UI组件)</p>
+<ul>
+<li>mapStateToProps: 映射状态，返回值是一个对象</li>
+<li>mapDispatchToProps: 映射操作状态的方法，返回值是一个对</li>
+<li>备注1：容器组件中的store是靠props传进去的，而不是在容器组件中直接引入</li>
+</ul>
+<p>容器组件：containers -&gt; Count</p>
+<pre class="language-react" data-language="react"><code class="language-react">//引入UI组件
+import CountUI from '../../components/Count';
+//引入react-redux中的connect用于连接
+import { connect } from 'react-redux';
+//引入action
+import {
+  increment,
+  decrement,
+  incrementAsyncAction,
+} from '../../redux/count_action';
+//使用connect()()创建并暴露一个Count的容器组件
+
+/*
+    1、mapStateProps函数返回的是一个对象
+    2、返回的对象中的key就作为传递给UI组件props的key，value就作为传递给UI组件props的value
+    3、mapStateToProps用于传递状态
+ */
+const mapStateProps = (state) =&gt; {
+  return { count: state };
+};
+/*
+    1、mapDispatchToProps函数返回的是一个对象
+    2、返回的对象中的key就作为传递给UI组件props的key，value就作为传递给UI组件props的value
+    3、mapDispatchToProps用于传递操作状态的方法
+ */
+
+//state dispatch 都是react-redux调用两个函数默认传递的值，这样就不用我们引入store来进行相关操作
+const mapDispatchToProps = (dispatch) =&gt; {
+  return {
+    incrementAction: (data) =&gt; {
+      dispatch(increment(data));
+    },
+    decrementAction: (data) =&gt; {
+      dispatch(decrement(data));
+    },
+    incrementAsyncAction: (data, time) =&gt; {
+      dispatch(incrementAsyncAction(data, time));
+    },
+  };
+};
+
+/*
+    1、connect是个核心
+    2、connect()()
+        第一个括号里传递状态和操作状态的方法
+        第二个括号是对应的UI组件
+*/
+export default connect(mapStateProps, mapDispatchToProps)(CountUI);
+
+</code></pre>
+
+<p>UI组件：components -&gt; Count</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+export default class Count extends Component {
+  //相加
+  increment = () =&gt; {
+    const { value } = this.selectedValue;
+      //为什么能拿到incrementAction?
+      //因为容器组件通过connect进行了传递
+    this.props.incrementAction(value * 1);
+  };
+  //相减
+  decrement = () =&gt; {
+    const { value } = this.selectedValue;
+    this.props.decrementAction(value * 1);
+  };
+  //和为基数再相加
+  incrementIfOdd = () =&gt; {
+    const { value } = this.selectedValue;
+    if (this.props.count % 2 !== 0) {
+      this.props.incrementAction(value * 1);
+    }
+  };
+  incrementAsync = () =&gt; {
+    const { value } = this.selectedValue;
+    this.props.incrementAsyncAction(value * 1, 1000);
+  };
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;求和为：{this.props.count}&lt;/h1&gt;
+        &lt;select ref={(c) =&gt; (this.selectedValue = c)}&gt;
+          &lt;option value="1"&gt;1&lt;/option&gt;
+          &lt;option value="2"&gt;2&lt;/option&gt;
+          &lt;option value="3"&gt;3&lt;/option&gt;
+        &lt;/select&gt;
+        &amp;nbsp;
+        &lt;button onClick={this.increment}&gt;+&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.decrement}&gt;-&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.incrementIfOdd}&gt;和为基数再相加&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.incrementAsync}&gt;异步相加&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre>
+
+<p>这里一定要仔细理解。</p>
+<h3 id="优化一、mapDispaychToProps简写"><a href="#优化一、mapDispaychToProps简写" class="headerlink" title="优化一、mapDispaychToProps简写"></a>优化一、mapDispaychToProps简写</h3><pre class="language-react" data-language="react"><code class="language-react">//mapDispatchToProps的简写方式
+//react-redux拿到action会自动进行dispatch
+{
+  incrementAction: increment,
+  decrementAction: decrement,
+  incrementAsyncAction: incrementAsyncAction,
+}
+</code></pre>
+
+<h3 id="优化二、去除store-subscribe"><a href="#优化二、去除store-subscribe" class="headerlink" title="优化二、去除store.subscribe"></a>优化二、去除store.subscribe</h3><p>react-redux默认会监听状态并刷新页面</p>
+<pre class="language-react" data-language="react"><code class="language-react">ReactDOM.render(&lt;App /&gt;,document.getElementById('root'));
+
+
+// store.subscribe(() =&gt; {
+//   ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));
+// });
+</code></pre>
+
+<h3 id="优化三、store传递"><a href="#优化三、store传递" class="headerlink" title="优化三、store传递"></a>优化三、store传递</h3><p>目前store传递是写在App组件中</p>
+<pre class="language-react" data-language="react"><code class="language-react">&lt;div&gt;
+  &lt;Count store={store}  /&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>但是要是有100个容器组件，每个都这样写就过于冗杂</p>
+<p>所以需要使用Provider</p>
+<p>index.js</p>
+<pre class="language-react" data-language="react"><code class="language-react">import store from './redux/store';
+import { Provider } from 'react-redux';
+ReactDOM.render(
+  &lt;Provider store={store}&gt;
+    &lt;App /&gt;
+  &lt;/Provider&gt;,
+  document.getElementById('root')
+);
+</code></pre>
+
+<p>这样App的子组件都可以接收到store。</p>
+<h3 id="优化四、整合UI组件和容器组件"><a href="#优化四、整合UI组件和容器组件" class="headerlink" title="优化四、整合UI组件和容器组件"></a>优化四、整合UI组件和容器组件</h3><p>把UI组件放到容器组件中。不能每次都要分成两个组件来使用react-redux</p>
+<p>src -&gt; container -&gt; Count -&gt; index.jsx</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+//引入react-redux中的connect用于连接
+import { connect } from 'react-redux';
+//引入action
+import {
+  increment,
+  decrement,
+  incrementAsyncAction,
+} from '../../redux/count_action';
+//使用connect()()创建并暴露一个Count的容器组件
+class Count extends Component {
+  //相加
+  increment = () =&gt; {
+    const { value } = this.selectedValue;
+    this.props.incrementAction(value * 1);
+  };
+  //相减
+  decrement = () =&gt; {
+    const { value } = this.selectedValue;
+    this.props.decrementAction(value * 1);
+  };
+  //和为基数再相加
+  incrementIfOdd = () =&gt; {
+    const { value } = this.selectedValue;
+    if (this.props.count % 2 !== 0) {
+      this.props.incrementAction(value * 1);
+    }
+  };
+  incrementAsync = () =&gt; {
+    const { value } = this.selectedValue;
+    this.props.incrementAsyncAction(value * 1, 1000);
+  };
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;求和为：{this.props.count}&lt;/h1&gt;
+        &lt;select ref={(c) =&gt; (this.selectedValue = c)}&gt;
+          &lt;option value="1"&gt;1&lt;/option&gt;
+          &lt;option value="2"&gt;2&lt;/option&gt;
+          &lt;option value="3"&gt;3&lt;/option&gt;
+        &lt;/select&gt;
+        &amp;nbsp;
+        &lt;button onClick={this.increment}&gt;+&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.decrement}&gt;-&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.incrementIfOdd}&gt;和为基数再相加&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.incrementAsync}&gt;异步相加&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default connect(
+  (state) =&gt; ({ count: state }),
+  //mapDispatchToProps的一般写法
+  /*
+  dispatch =&gt; ({
+     incrementAction:data =&gt; dispatch(increment(data)),
+     decrementAction:data =&gt; dispatch(decrement(data)),
+     incrementAsyncAction:(data,time) =&gt; dispatch(incrementAsyncAction(data,time))
+  })
+ */
+  //mapDispatchToProps的简写方式
+  //react-redux拿到action会自动进行dispatch
+  {
+    incrementAction: increment,
+    decrementAction: decrement,
+    incrementAsyncAction: incrementAsyncAction,
+  }
+)(Count);
+</code></pre>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><p>容器组件和UI组件整合一个文件</p>
+</li>
+<li><p>无需自己给容器组件传递store，给<code>&lt;App/&gt;</code>包裹一个<code>&lt;Provider store={store}&gt;</code>即可。</p>
+</li>
+<li><p>使用了react-redux后也不用再自己检测redux中状态的改变了，容器组件可以自动完成这个工作。</p>
+</li>
+<li><p>mapDispatchToProps也可以简单的写成一个对象</p>
+</li>
+<li><p>一个组件要和redux“打交道”要经过哪几步？</p>
+<ul>
+<li>定义好UI组件—不暴露</li>
+</ul>
+</li>
+<li><p>引入connect生成一个容器组件，并暴露，写法如下：</p>
+<ul>
+<li>在UI组件中通过this.props.xxxxxxx读取和操作状态</li>
+</ul>
+</li>
+</ul>
+<pre class="language-react" data-language="react"><code class="language-react">connect(
+state =&gt; ({key:value}), //映射状态
+{key:xxxxxAction} //映射操作状态的方法
+)(UI组件)
+</code></pre>
+
+<h2 id="数据共享"><a href="#数据共享" class="headerlink" title="数据共享"></a>数据共享</h2><p>之前的都是单组件使用redux没有进行组件数据共享。</p>
+<p>containers下新建Person组件实现与Count组件共享。</p>
+<p>为了便于管理</p>
+<p>redux目录下新建action目录reducers目录</p>
+<p>分别管理各个组件的reducer和action</p>
+<p>目录如下：</p>
+<p><img src="http://cdn.michstabe.cn/blog/211130/agj2kF0DC4.png?imageslim"></p>
+<p>containers -&gt; Person -&gt; index.jsx:</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+import {nanoid} from 'nanoid'
+export default class Person extends Component {
+  add = () =&gt; {
+    const name = this.nameNode.value;
+    const age = this.ageNode.value;
+    const personObj = [{id:nanoid(),name,age}]
+    console.log(personObj);
+  };
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h2&gt;Person组件&lt;/h2&gt;
+        &lt;input
+          ref={(c) =&gt; (this.nameNode = c)}
+          type="text"
+          placeholder="输入名字"
+        /&gt;
+        &lt;input
+          ref={(c) =&gt; (this.ageNode = c)}
+          type="text"
+          placeholder="输入年龄"
+        /&gt;
+        &lt;button onClick={this.add}&gt;提交&lt;/button&gt;
+        &lt;ul&gt;
+          &lt;li&gt;名字1 --- 年龄1&lt;/li&gt;
+          &lt;li&gt;名字1 --- 年龄1&lt;/li&gt;
+          &lt;li&gt;名字1 --- 年龄1&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+</code></pre>
+
+<p>action -&gt; peson.js:</p>
+<pre class="language-react" data-language="react"><code class="language-react">//引入常量
+import { ADD_PERSON } from '../constant';
+
+//定义action
+export const addPerson = (personObj) =&gt; ({ type: ADD_PERSON, data: personObj });
+
+</code></pre>
+
+<p>reducers -&gt; person.js:</p>
+<pre class="language-react" data-language="react"><code class="language-react">//初始化状态 更新redux状态
+
+//引入常量
+import { ADD_PERSON } from '../constant';
+
+const stateInit = [{ id: 1, name: 'tom', age: 20 }];
+export default function personReducer(personState = stateInit, action) {
+  const { type, data } = action;
+  switch (type) {
+    case ADD_PERSON:
+      return [data, ...personState];
+    default:
+      return personState;
+  }
+}
+</code></pre>
+
+<p>constant.js:</p>
+<pre class="language-react" data-language="react"><code class="language-react">//定义action中type的常量值，为了防止单词拼写错误且便于管理
+export const INCREMENT = 'increment';
+export const DECREMENT = 'decrement';
+export const ADD_PERSON = 'addPerson';
+</code></pre>
+
+<p>这样基本的布局逻辑就完成了。</p>
+<p>这时的person的reducer是没有工作的</p>
+<p>打印看下</p>
+<pre class="language-react" data-language="react"><code class="language-react">export default function countReducer(pre = initState, action) {
+  console.log('count');
+  // console.log(pre, action);
+  const { type, data } = action;
+  switch (type) {
+    case INCREMENT:
+      return pre + data;
+    case DECREMENT:
+      return pre - data;
+    default:
+      return pre;
+  }
+}
+</code></pre>
+
+<pre class="language-react" data-language="react"><code class="language-react">//初始化状态 更新redux状态
+
+//引入常量
+import { ADD_PERSON } from '../constant';
+
+const stateInit = [{ id: 1, name: 'tom', age: 20 }];
+export default function personReducer(personState = stateInit, action) {
+  console.log('person');
+  const { type, data } = action;
+  switch (type) {
+    case ADD_PERSON:
+      return [data, ...personState];
+    default:
+      return personState;
+  }
+}
+
+</code></pre>
+
+<p>网页控制台只会打印1</p>
+<p>为什么？ 看store.js:</p>
+<pre class="language-react" data-language="react"><code class="language-react">/*
+    该文件专门用于暴露一个store对象，整个应用只有一个store对象
+ */
+
+//引入createStore，专门用于创建redux中最为核心的store对象
+import { createStore, applyMiddleware } from 'redux';
+//引入为Count组件服务的reducer
+import countReducer from './reducers/count';
+//引入thunk
+import thunk from 'redux-thunk';
+//暴露store
+export default createStore(countReducer, applyMiddleware(thunk));
+
+</code></pre>
+
+<p>因为只导入并使用了count的reducer,person的压根没用自然不会执行。</p>
+<p>所以需要都引入。</p>
+<p>注意：</p>
+<ul>
+<li>redux里面应该放个状态对象，对象里放着各个组件reducer的初始状态值</li>
+<li>为什么不用数组？数组取值不好取</li>
+<li>需要引入combineReducers来组合reducer成为一个。</li>
+</ul>
+<p>代码改造：</p>
+<pre class="language-react" data-language="react"><code class="language-react">/*
+    该文件专门用于暴露一个store对象，整个应用只有一个store对象
+ */
+
+//引入createStore，专门用于创建redux中最为核心的store对象
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+//引入为Count组件服务的reducer
+import countReducer from './reducers/count';
+//引入为Person组件服务的reducer
+import personReducer from './reducers/person';
+//引入thunk
+import thunk from 'redux-thunk';
+//组合reducers为一个对象
+const allReducers = combineReducers({
+  count: countReducer,
+  pers: personReducer,
+});
+//暴露store
+export default createStore(allReducers, applyMiddleware(thunk));
+
+</code></pre>
+
+<p>这样redux中保存的就是一个对象了，想去对应的状态值拿key就好了。</p>
+<p>比如在count.jsx:</p>
+<pre class="language-react" data-language="react"><code class="language-react">export default connect(
+  (state) =&gt; ({ count: state.count }),
+  {
+    incrementAction: increment,
+    decrementAction: decrement,
+    incrementAsyncAction: incrementAsyncAction,
+  }
+)(Count);
+</code></pre>
+
+<p>state是对象不再是之前的0，所以要通过state,count来拿到countReducer的初始状态值。</p>
+<p>person.jsx也一样。</p>
+<p>最后来实现下数据共享。</p>
+<p>还是通过核心connect</p>
+<p>containers -&gt; Person -&gt; index.jsx:</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addPerson } from '../../redux/action/person';
+
+class Person extends Component {
+  addPerson = () =&gt; {
+    const name = this.nameNode.value;
+    const age = this.ageNode.value;
+    const personObj = { id: new Date(), name, age };
+    this.props.addPerson(personObj);
+    this.nameNode.value = '';
+    this.ageNode.value = '';
+  };
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h2&gt;我是Person组件,上方组件求和为{this.props.count}&lt;/h2&gt;
+        &lt;input
+          ref={(c) =&gt; (this.nameNode = c)}
+          type="text"
+          placeholder="输入名字"
+        /&gt;
+        &lt;input
+          ref={(c) =&gt; (this.ageNode = c)}
+          type="text"
+          placeholder="输入年龄"
+        /&gt;
+        &lt;button onClick={this.addPerson}&gt;添加&lt;/button&gt;
+        &lt;ul&gt;
+          {this.props.pers.map((p) =&gt; {
+            return (
+              &lt;li key={p.id}&gt;
+                {p.name}--{p.age}
+              &lt;/li&gt;
+            );
+          })}
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default connect(
+  (state) =&gt; ({ pers: state.pers, count: state.count }), //映射状态
+  { addPerson: addPerson } //映射操作状态的方法
+)(Person);
+
+</code></pre>
+
+<p>containers -&gt; Count -&gt; index.jsx:</p>
+<pre class="language-react" data-language="react"><code class="language-react">import React, { Component } from 'react';
+//引入react-redux中的connect用于连接
+import { connect } from 'react-redux';
+//引入action
+import {
+  increment,
+  decrement,
+  incrementAsyncAction,
+} from '../../redux/action/count';
+//使用connect()()创建并暴露一个Count的容器组件
+class Count extends Component {
+  //相加
+  increment = () =&gt; {
+    const { value } = this.selectedValue;
+    this.props.incrementAction(value * 1);
+  };
+  //相减
+  decrement = () =&gt; {
+    const { value } = this.selectedValue;
+    this.props.decrementAction(value * 1);
+  };
+  //和为基数再相加
+  incrementIfOdd = () =&gt; {
+    const { value } = this.selectedValue;
+    if (this.props.count % 2 !== 0) {
+      this.props.incrementAction(value * 1);
+    }
+  };
+  incrementAsync = () =&gt; {
+    const { value } = this.selectedValue;
+    this.props.incrementAsyncAction(value * 1, 1000);
+  };
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;求和为：{this.props.count}&lt;/h1&gt;
+        &lt;h1&gt;person组件中的人员总数为{this.props.pers}&lt;/h1&gt;
+        &lt;select ref={(c) =&gt; (this.selectedValue = c)}&gt;
+          &lt;option value="1"&gt;1&lt;/option&gt;
+          &lt;option value="2"&gt;2&lt;/option&gt;
+          &lt;option value="3"&gt;3&lt;/option&gt;
+        &lt;/select&gt;
+        &amp;nbsp;
+        &lt;button onClick={this.increment}&gt;+&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.decrement}&gt;-&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.incrementIfOdd}&gt;和为基数再相加&lt;/button&gt;&amp;nbsp;
+        &lt;button onClick={this.incrementAsync}&gt;异步相加&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default connect(
+  (state) =&gt; ({ count: state.count, pers: state.pers.length }),
+  //mapDispatchToProps的一般写法
+  /*
+  dispatch =&gt; ({
+     incrementAction:data =&gt; dispatch(increment(data)),
+     decrementAction:data =&gt; dispatch(decrement(data)),
+     incrementAsyncAction:(data,time) =&gt; dispatch(incrementAsyncAction(data,time))
+  })
+ */
+  //mapDispatchToProps的简写方式
+  //react-redux拿到action会自动进行dispatch
+  {
+    incrementAction: increment,
+    decrementAction: decrement,
+    incrementAsyncAction: incrementAsyncAction,
+  }
+)(Count);
+
+</code></pre>
+
+<p>頁面效果：</p>
+<p><img src="http://cdn.michstabe.cn/blog/211130/LkH5JF5Icd.png?imageslim"></p>
+<p>基本实现数据共享。</p>
+<h2 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h2><p>一类特别的函数：</p>
+<ul>
+<li>只要是同样的输入，必定得到同样的输出</li>
+</ul>
+<p>必须遵守以下一些约束：</p>
+<ul>
+<li>不能改写参数数据</li>
+<li>不能产生任何副作用，例如网络请求，输入与输出设备</li>
+<li>不能调用Date.now()或者Math.random()等不纯的方法</li>
+</ul>
+<p>redux的reducer函数必须是一个纯函数</p>
+<h2 id="react-dedux开发者工具"><a href="#react-dedux开发者工具" class="headerlink" title="react-dedux开发者工具"></a>react-dedux开发者工具</h2><p>npm i  redux-devtools-extension</p>
+<p>store.js中进行配置</p>
+<pre class="language-react" data-language="react"><code class="language-react">import {composeWithDevTools} from 'redux-devtools-extension'
+const store = createStore(allReducer,composeWithDevTools(applyMiddleware(thunk)))
+</code></pre>
+
+<p><img src="http://cdn.michstabe.cn/blog/211201/7CgGdd60Ae.png?imageslim" alt="mark"></p>
+<h2 id="最终优化"><a href="#最终优化" class="headerlink" title="最终优化"></a>最终优化</h2><p>所有变量名字要规范，尽量触发对象的简写形式。</p>
+<p> reducers文件夹中，编写index.js专门用于汇总并暴露所有的reducer</p>
+<p>index.js:</p>
+<pre class="language-react" data-language="react"><code class="language-react">//引入为Count组件服务的reducer
+import Count from './count';
+//引入为Person组件服务的reducer
+import Person from './person';
+//引入combineReducers，用于组合reducers
+import { combineReducers } from 'redux';
+//组合reducers为一个对象
+export default combineReducers({
+  Count,
+  Person,
+});
+</code></pre>
+
+<p>store.js:</p>
+<pre class="language-react" data-language="react"><code class="language-react">/*
+    该文件专门用于暴露一个store对象，整个应用只有一个store对象
+ */
+
+//引入createStore，专门用于创建redux中最为核心的store对象
+import { createStore, applyMiddleware } from 'redux';
+//引入整合的reducer
+import allReducers from './reducers/index'
+//引入redux-devtools
+import { composeWithDevTools } from 'redux-devtools-extension';
+//引入thunk
+import thunk from 'redux-thunk';
+//暴露store
+export default createStore(
+  allReducers,
+  composeWithDevTools(applyMiddleware(thunk))
+);
+</code></pre>
+
+<h2 id="项目打包运行"><a href="#项目打包运行" class="headerlink" title="项目打包运行"></a>项目打包运行</h2><p>npm run build进行项目打包。</p>
+<p>npm  i serve -g</p>
+<p>serve build来放到服务器上运行。</p>
+<p><img src="http://cdn.michstabe.cn/blog/211201/igk8IbcCCB.png?imageslim"></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">MichstaBe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://ulrica-ch.github.io/posts/1809249476/">https://ulrica-ch.github.io/posts/1809249476/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">MichstaBe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/React/">
+                                    <span class="chip bg-color">React</span>
+                                </a>
+                            
+                                <a href="/tags/Redux/">
+                                    <span class="chip bg-color">Redux</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'baPwGXa2IUzmtvSuQn1I4WT7-gzGzoHsz',
+        appKey: 'MNnOEMRv9FirEbhOGxroPx1b',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/posts/18655065/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="十六、React扩展">
+                        
+                        <span class="card-title">十六、React扩展</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-12-04
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/React/" class="post-category">
+                                    React
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/React/">
+                        <span class="chip bg-color">React</span>
+                    </a>
+                    
+                    <a href="/tags/React-Hooks/">
+                        <span class="chip bg-color">React Hooks</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/">
+                        <span class="chip bg-color">组件通信</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/posts/361145644/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="十四、React-Antd">
+                        
+                        <span class="card-title">十四、React-Antd</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-02
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/React/" class="post-category">
+                                    React
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/React/">
+                        <span class="chip bg-color">React</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%BB%84%E4%BB%B6%E5%BA%93/">
+                        <span class="chip bg-color">组件库</span>
+                    </a>
+                    
+                    <a href="/tags/Antd/">
+                        <span class="chip bg-color">Antd</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021</span>
+            
+            <a href="/about" target="_blank">MichstaBe-XY</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">104.2k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Ulrica-CH" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:210871791@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=210871791" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 210871791" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
